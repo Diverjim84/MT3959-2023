@@ -32,7 +32,7 @@ namespace constants{
     constexpr int PigeonID = 32;
     constexpr bool PigeonInverted = false;
 
-    const std::string DriveCANBus = "rio";//"Can1";
+    const std::string DriveCANBus = "Can1";//"rio";
     constexpr units::millisecond_t DriveCANBusPeriod = 20_ms;
 
     constexpr double RotGain = 1.5;//for controlling the heading closed loop
