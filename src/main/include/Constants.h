@@ -87,8 +87,10 @@ namespace constants{
       CANCoderConfiguration encoderConfig;
 
                               //driveID, turnID, encoderID, angleOffset
-      SwerveModuleConstants frontLeftConstants{1, 3, 13, DriveCANBus, DriveCANBusPeriod};
-      SwerveModuleConstants frontRightConstants{7, 8, 12, DriveCANBus, DriveCANBusPeriod};
+      //SwerveModuleConstants frontLeftConstants{1, 3, 13, DriveCANBus, DriveCANBusPeriod};
+      //SwerveModuleConstants frontRightConstants{7, 8, 12, DriveCANBus, DriveCANBusPeriod};
+      SwerveModuleConstants frontRightConstants{1, 3, 13, DriveCANBus, DriveCANBusPeriod};
+      SwerveModuleConstants frontLeftConstants{7, 8, 12, DriveCANBus, DriveCANBusPeriod};
       SwerveModuleConstants rearLeftConstants{5, 6, 14, DriveCANBus, DriveCANBusPeriod};
       SwerveModuleConstants rearRightConstants{2, 4, 15, DriveCANBus, DriveCANBusPeriod};
       //SwerveModuleConstants rearRightConstants{2, 10, 15, DriveCANBus, DriveCANBusPeriod};
@@ -160,8 +162,8 @@ namespace constants{
 
         //update with offset angle from calibration [-180,180)
         //NOTE:  multiply angle at 0 heading times -1 to get offset
-        frontLeftConstants.m_encoderConfig.magnetOffsetDegrees = -137.9;
-        frontRightConstants.m_encoderConfig.magnetOffsetDegrees = 167.8;
+        frontLeftConstants.m_encoderConfig.magnetOffsetDegrees = 77.8;//-137.9
+        frontRightConstants.m_encoderConfig.magnetOffsetDegrees = -47.9;//167.8
         rearLeftConstants.m_encoderConfig.magnetOffsetDegrees = -17.45;
         rearRightConstants.m_encoderConfig.magnetOffsetDegrees = 72.06;
 
