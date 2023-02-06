@@ -24,7 +24,7 @@ bool LimeLight::IsTargetVisable(){
   frc::Pose2d LimeLight::GetRobotPose(){
 
     //create storage vector for bot pose from limelight
-    double pose3d[6] ; //= m_limelight->GetNumberArray("botpose",std::vector<double>(6));
+    std::vector<double> pose3d = m_limelight->GetNumberArray("botpose",std::array<double, 6>{} );
 
     //get 3d pose from limelight
     
