@@ -22,11 +22,14 @@
 
 
 #include "SwerveModuleConstants.h"
+#include "MTechArm.h"
 
 namespace constants{
 
   constexpr double NominalVoltage = 12.0;
-  
+
+    Arm::ArmConstants armConstants;
+    
   namespace swerveConstants{
 
     constexpr int PigeonID = 32;

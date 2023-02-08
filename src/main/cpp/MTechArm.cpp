@@ -32,27 +32,32 @@ units::degree_t Arm::GetOffsetAngle(){
 }
 
 units::degree_t Arm::GetAngle(){
+    //gets the angle the arm is currently at
     return 0_deg; 
 }
 
 units::degree_t Arm::GetTargetAngle(){
+    //sends the angle the arm intended to go to - easier to calculate error
     return 0_deg;
 }
 
 double Arm::GetRawAngle(){
+    //gets the angle without being zeroed out - encoder ticks
     return 0.0;
 }
 
 double Arm::GetAngleError(){
-   //angles 
+   //how off the intended angle is to the actual angle (encoder ticks)
    return 0.0;
 } 
 
 units::degrees_per_second_t Arm::GetSpeed(){
+    //gets the speed of the arm in degrees per second as it rotates
     return 0_deg_per_s;
 }
 
 double Arm::GetMotorEncoderPosition(){
+    
     return 0.0;
 }
 

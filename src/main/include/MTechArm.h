@@ -6,12 +6,7 @@
 #include <wpi/sendable/Sendable.h>
 #include <ctre/Phoenix.h>
 
-enum LoggingLevel{
-    None,
-    Basic,
-    PID,
-    Everything
-}; //enumerations for all of the above - similar to constants
+#include "LoggingLevel.h"
 
 
 class Arm : public wpi::Sendable /*constructor*/{
