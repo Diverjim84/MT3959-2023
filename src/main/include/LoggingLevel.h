@@ -7,4 +7,4 @@ enum LoggingLevel{
     Basic,
     PID,
     Everything
-}; //enumerations for all of the above - similar to constants
+}; 

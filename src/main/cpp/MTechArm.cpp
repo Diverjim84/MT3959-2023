@@ -1,9 +1,10 @@
 #include "MTechArm.h" //header file
 
-Arm::Arm(ArmConstants constants)
-    : m_motor1(constants.motor1ID),
-      m_motor2(constants.motor2ID),
-      m_encoder(constants.encoderID)
+Arm::Arm(ArmConstants constants): 
+      m_encoder(constants.encoderID),
+      m_motor1(constants.motor1ID),
+      m_motor2(constants.motor2ID)
+      
 
 {
     //constructor- declaring constants for arm

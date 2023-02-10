@@ -7,6 +7,7 @@
 #include <ctre/Phoenix.h>
 
 #include "LoggingLevel.h"
+#include "MTechArmConstants.h"
 
 
 class Arm : public wpi::Sendable /*constructor*/{
@@ -16,19 +17,11 @@ private:
 
     TalonFX m_motor1; //declares primary motor
     TalonFX m_motor2; //declares follower motor
+
     units::degree_t m_targetAngle; //shows the target angle of the motors/arm in degrees
     
 public:
-    struct ArmConstants{
-        int motor1ID;
-        int motor2ID;
-        int encoderID;
-
-        CANCoderConfiguration EncoderConfig; //ctre config data
-        TalonFXConfiguration Motor1Config; 
-        TalonFXConfiguration Motor2Config;
-    }; //declares ArmConstants 
-
+    
 
     Arm(ArmConstants constants);
     void Init(ArmConstants constants);

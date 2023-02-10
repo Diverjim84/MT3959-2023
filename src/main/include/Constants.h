@@ -22,13 +22,13 @@
 
 
 #include "SwerveModuleConstants.h"
-#include "MTechArm.h"
+#include "MTechArmConstants.h"
 
 namespace constants{
 
   constexpr double NominalVoltage = 12.0;
 
-    Arm::ArmConstants armConstants;
+  //ArmConstants the_armConstants;
     
   namespace swerveConstants{
 
@@ -98,6 +98,8 @@ namespace constants{
       SwerveModuleConstants rearRightConstants{2, 4, 15, DriveCANBus, DriveCANBusPeriod};
       //SwerveModuleConstants rearRightConstants{2, 10, 15, DriveCANBus, DriveCANBusPeriod};
 
+
+
       SwerveConfig()
       {
 
@@ -165,11 +167,17 @@ namespace constants{
 
         //update with offset angle from calibration [-180,180)
         //NOTE:  multiply angle at 0 heading times -1 to get offset
+        
+        frontLeftConstants.m_encoderConfig.magnetOffsetDegrees = 167.8;//-137.9
+        frontRightConstants.m_encoderConfig.magnetOffsetDegrees = 42.1;//167.8
+        rearLeftConstants.m_encoderConfig.magnetOffsetDegrees = 72.55;
+        rearRightConstants.m_encoderConfig.magnetOffsetDegrees = 162.06;
+/*
         frontLeftConstants.m_encoderConfig.magnetOffsetDegrees = 77.8;//-137.9
         frontRightConstants.m_encoderConfig.magnetOffsetDegrees = -47.9;//167.8
         rearLeftConstants.m_encoderConfig.magnetOffsetDegrees = -17.45;
         rearRightConstants.m_encoderConfig.magnetOffsetDegrees = 72.06;
-
+*/
       };
     };
   }
