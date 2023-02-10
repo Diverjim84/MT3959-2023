@@ -38,6 +38,7 @@ bool LimeLight::IsTargetVisable(){
   }
 
   units::inch_t LimeLight::GetReflectiveTargetRange(double targetHight){
+    /*
     double targetOffsetAngle_Horizontal = m_limelight->GetNumber("tx",0.0);
     double targetOffsetAngle_Vertical = m_limelight->GetNumber("ty",0.0);
     double targetArea = m_limelight->GetNumber("ta",0.0);
