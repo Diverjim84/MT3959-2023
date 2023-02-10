@@ -35,7 +35,7 @@ namespace constants{
     constexpr int PigeonID = 32;
     constexpr bool PigeonInverted = false;
 
-    const std::string DriveCANBus = "Can1";//"rio";
+    const std::string DriveCANBus = "rio";//"Can1";
     constexpr units::millisecond_t DriveCANBusPeriod = 20_ms;
 
     constexpr double RotGain = 1.5;//for controlling the heading closed loop
@@ -167,17 +167,11 @@ namespace constants{
 
         //update with offset angle from calibration [-180,180)
         //NOTE:  multiply angle at 0 heading times -1 to get offset
-        
-        frontLeftConstants.m_encoderConfig.magnetOffsetDegrees = 167.8;//-137.9
-        frontRightConstants.m_encoderConfig.magnetOffsetDegrees = 42.1;//167.8
-        rearLeftConstants.m_encoderConfig.magnetOffsetDegrees = 72.55;
-        rearRightConstants.m_encoderConfig.magnetOffsetDegrees = 162.06;
-/*
         frontLeftConstants.m_encoderConfig.magnetOffsetDegrees = 77.8;//-137.9
         frontRightConstants.m_encoderConfig.magnetOffsetDegrees = -47.9;//167.8
         rearLeftConstants.m_encoderConfig.magnetOffsetDegrees = -17.45;
         rearRightConstants.m_encoderConfig.magnetOffsetDegrees = 72.06;
-*/
+
       };
     };
   }
