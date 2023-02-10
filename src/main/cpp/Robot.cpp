@@ -74,7 +74,8 @@ void Robot::Drive()
 {
   double drivex = -driver.GetLeftY();
   double drivey = -driver.GetLeftX();
-  if((fabs(drivex)+fabs(drivey))/2.0<.05){
+  //deadband
+  if((fabs(drivex)+fabs(drivey))/2.0<.1){
     drivex = 0.0;
     drivey = 0.0;
   }
@@ -102,13 +103,13 @@ void Robot::Drive()
         hy = 0.0;
       }
       m_swerve.Drive(
-          m_xspeedLimiter.Calculate(pow(drivex,1)) * constants::swerveConstants::MaxSpeed * scale,
-          m_yspeedLimiter.Calculate(pow(drivey,1)) * constants::swerveConstants::MaxSpeed * scale, 
+          m_xspeedLimiter.Calculate(pow(drivex,3)) * constants::swerveConstants::MaxSpeed * scale,
+          m_yspeedLimiter.Calculate(pow(drivey,3)) * constants::swerveConstants::MaxSpeed * scale, 
           m_rotLimiter.Calculate(pow(hy,3)) * constants::swerveConstants::MaxAngularVelocity * scale, 
           true);
       break;
     case DriveMode::HeadingControl :
-      if(sqrt(hx*hx+hy*hy) > 0.99)//make sure the joystick is begin used by calculating magnitude
+      if(sqrt(hx*hx+hy*hy) > 0.95)//make sure the joystick is begin used by calculating magnitude
       {
           m_swerve.SetTargetHeading(frc::Rotation2d(hx, hy).Degrees());
           frc::SmartDashboard::PutNumber("Heading Stick Value", sqrt(hx*hx+hy*hy));
