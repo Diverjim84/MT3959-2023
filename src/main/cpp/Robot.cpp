@@ -33,7 +33,7 @@ void Robot::UpdatePose(){
 void Robot::RobotPeriodic() {
   
   
-
+  ll.SendData(LoggingLevel::Basic);
 
   m_swerve.SendData();
 
