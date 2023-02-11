@@ -4,8 +4,11 @@
 
 #include "Robot.h"
 
+Robot::Robot():
+  ll()
+{
 
-
+}
 
 void Robot::RobotInit() {
   
@@ -16,9 +19,20 @@ void Robot::RobotInit() {
   m_swerve.ResetDriveEncoders();    
 }
 
+void Robot::UpdatePose(){
+
+  m_swerve.UpdateOdometry();
+
+  if((units::math::abs(m_swerve.GetChassisSpeeds().vx)+units::math::abs(m_swerve.GetChassisSpeeds().vy)) < .05_mps){
+    if(ll.IsTargetVisable()){
+      m_swerve.SetPose(ll.GetRobotPose());
+    }
+  }
+}
+
 void Robot::RobotPeriodic() {
   
-  m_swerve.UpdateOdometry();
+  
 
 
   m_swerve.SendData();
@@ -123,6 +137,8 @@ void Robot::Drive()
       
   }
 }
+
+
 
 
 #ifndef RUNNING_FRC_TESTS

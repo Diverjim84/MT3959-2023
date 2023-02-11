@@ -37,6 +37,11 @@
 
 #include <rev/CANSparkMax.h>
 
+#include "LimeLight.h"
+#include "LoggingLevel.h"
+#include "MTechArm.h"
+
+
 class Robot : public frc::TimedRobot {
 
 private:
@@ -61,10 +66,15 @@ private:
   Drivetrain m_swerve{config};
   bool headingControl;
 
+  LimeLight ll;
+  
 
   void Drive();
+  void UpdatePose();
 
  public:
+
+       Robot();
   void RobotInit() override;
   void RobotPeriodic() override;
 
