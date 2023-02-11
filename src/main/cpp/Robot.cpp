@@ -22,20 +22,21 @@ void Robot::RobotInit() {
 void Robot::UpdatePose(){
 
   m_swerve.UpdateOdometry();
-
-  if((units::math::abs(m_swerve.GetChassisSpeeds().vx)+units::math::abs(m_swerve.GetChassisSpeeds().vy)) < .05_mps){
-    if(ll.IsTargetVisable()){
-      m_swerve.SetPose(ll.GetRobotPose());
-    }
+  
+  LL3DPose lpose = ll.GetRobotPose();
+  if(lpose.validTarget){
+    if((units::math::abs(m_swerve.GetChassisSpeeds().vx)+units::math::abs(m_swerve.GetChassisSpeeds().vy)) < .05_mps){
+      //m_swerve.SetPose(lpose.botpose);
+    } 
   }
 }
 
 void Robot::RobotPeriodic() {
   
+  UpdatePose();
+  ll.SendData(LoggingLevel::Basic);
   
-
-
-  m_swerve.SendData();
+  //m_swerve.SendData();
 
 }
 

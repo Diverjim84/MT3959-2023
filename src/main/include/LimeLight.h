@@ -13,6 +13,22 @@
 #include <units/length.h>
 #include "LoggingLevel.h"
 
+
+class LL3DPose{
+
+public:
+ LL3DPose(bool valT, frc::Pose2d p2d, std::vector<double> p3d): botpose{p2d}
+ {
+  validTarget = valT;
+  pose3d = p3d;
+ }
+
+  bool validTarget;
+  frc::Pose2d botpose;
+  std::vector<double> pose3d;
+
+};
+
 class LimeLight {
  
  
@@ -22,9 +38,11 @@ class LimeLight {
 public:
   LimeLight();
 
+
+
   bool IsTargetVisable();
 
-  frc::Pose2d GetRobotPose();
+  LL3DPose GetRobotPose();
 
   void SendData(LoggingLevel verbose);
 
