@@ -16,6 +16,9 @@ void Robot::RobotInit() {
   headingControl =  true;
   driveMode = DriveMode::HeadingControl;
 
+  autoState = 0;
+  autoTimer.Reset();
+
   m_swerve.ResetDriveEncoders();    
 }
 
