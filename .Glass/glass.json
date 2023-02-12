@@ -4,6 +4,9 @@
       "open": false
     },
     "transitory": {
+      "SmartDashboard": {
+        "open": true
+      },
       "limelight": {
         "open": true
       }
@@ -26,8 +29,9 @@
     "visible": true
   },
   "NetworkTables Settings": {
+    "dsClient": false,
     "listenAddress": "10.39.59.2",
     "mode": "Client (NT3)",
-    "serverTeam": "3959"
+    "serverTeam": "10.39.59.2"
   }
 }

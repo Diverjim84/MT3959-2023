@@ -21,28 +21,13 @@ bool LimeLight::IsTargetVisable(){
    return false;
   }
 
-  LL3DPose LimeLight::GetRobotPose(){
+  frc::Pose2d LimeLight::GetRobotPose(){
 
     //create storage vector for bot pose from limelight
-    
-    std::vector<double> pose3d = m_limelight->GetNumberArray("botpose",std::array<double, 6>{} );
-
+    LL3DPose pose3d{m_limelight->GetNumberArray("botpose",std::array<double, 6>{} )};
     //get 3d pose from limelight
+    return pose3d.GetPose2d();
     
-    if (pose3d.size() == 6) {
-      LL3DPose pose{ true,
-                      frc::Pose2d{units::meter_t{pose.pose3d.at(0)},
-                                   units::meter_t{pose.pose3d.at(1)},
-                                   frc::Rotation2d{units::degree_t{pose.pose3d.at(5)}}},
-                     pose3d};
-      return pose;
-    }else {
-      LL3DPose pose{ false,
-                     frc::Pose2d{0_m,0_m,frc::Rotation2d{0_deg}},
-                     pose3d};
-      return pose;
-    }
-
     //translate 3d pose to 2d pose
     //units::meter_t x{pose3d.at(0)};
     //units::meter_t y{pose3d.at(1)};
@@ -93,11 +78,12 @@ bool LimeLight::IsTargetVisable(){
                                     //continue
         case LoggingLevel::Basic: //minimal useful data to driver
               {
-                LL3DPose p = GetRobotPose();
-                frc::SmartDashboard::PutBoolean("Limelight visable x", p.validTarget);
-                frc::SmartDashboard::PutNumber("Limelight pose x", p.botpose.X().value());
-                frc::SmartDashboard::PutNumber("Limelight pose y", p.botpose.Y().value());
-                frc::SmartDashboard::PutNumber("Limelight pose heading", p.botpose.Rotation().Degrees().value());
+                frc::Pose2d p = GetRobotPose();
+                frc::SmartDashboard::PutBoolean("Limelight visable x", IsTargetVisable());
+                frc::SmartDashboard::PutNumber("Limelight pose x", p.X().value());
+                frc::SmartDashboard::PutNumber("Limelight pose y", p.Y().value());
+                frc::SmartDashboard::PutNumber("Limelight pose heading", p.Rotation().Degrees().value());
+                
               }
                                     //continue
         default: break; //make sure nothing else prints

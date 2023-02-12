@@ -17,14 +17,30 @@
 class LL3DPose{
 
 public:
- LL3DPose(bool valT, frc::Pose2d p2d, std::vector<double> p3d): botpose{p2d}
+ LL3DPose(std::vector<double> p3d)
  {
-  validTarget = valT;
   pose3d = p3d;
  }
 
-  bool validTarget;
-  frc::Pose2d botpose;
+  frc::Pose2d GetPose2d(){
+    if(isVisable()){
+      return frc::Pose2d(  units::meter_t{pose3d.at(0)},
+                            units::meter_t{pose3d.at(1)},
+                            frc::Rotation2d{units::degree_t{pose3d.at(5)}}
+                          );
+    }else{
+      return frc::Pose2d();
+    }
+  };
+
+  bool isVisable(){
+    if(pose3d.size()==6){
+      return true;
+    }else{
+      return false;
+    }
+  };
+  
   std::vector<double> pose3d;
 
 };
@@ -42,7 +58,7 @@ public:
 
   bool IsTargetVisable();
 
-  LL3DPose GetRobotPose();
+  frc::Pose2d GetRobotPose();
 
   void SendData(LoggingLevel verbose);
 

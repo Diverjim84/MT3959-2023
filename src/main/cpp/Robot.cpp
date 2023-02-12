@@ -23,8 +23,8 @@ void Robot::UpdatePose(){
 
   m_swerve.UpdateOdometry();
   
-  LL3DPose lpose = ll.GetRobotPose();
-  if(lpose.validTarget){
+  frc::Pose2d lpose = ll.GetRobotPose();
+  if(ll.IsTargetVisable()){
     if((units::math::abs(m_swerve.GetChassisSpeeds().vx)+units::math::abs(m_swerve.GetChassisSpeeds().vy)) < .05_mps){
       //m_swerve.SetPose(lpose.botpose);
     } 
