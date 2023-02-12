@@ -4,6 +4,7 @@
 
 #include "Robot.h"
 
+
 Robot::Robot():
   ll()
 {
@@ -16,6 +17,7 @@ void Robot::RobotInit() {
   headingControl =  true;
   driveMode = DriveMode::HeadingControl;
 
+  takeSpeedBump = false;
   autoState = 0;
   autoTimer.Reset();
 

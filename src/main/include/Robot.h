@@ -30,6 +30,7 @@
 #include "LimeLight.h"
 #include "LoggingLevel.h"
 #include "MTechArm.h"
+#include "WaypointPoses.h"
 
 
 class Robot : public frc::TimedRobot {
@@ -59,13 +60,16 @@ private:
   LimeLight ll;
   
 
-  frc::Trajectory traj;
-  frc::Trajectory traj2;
-  frc::Trajectory traj3;
-  frc::Trajectory traj4;
-  frc::Trajectory traj5;
+  frc::Trajectory traj2Score1;
+  frc::Trajectory traj2Piece1;
+  frc::Trajectory traj2Score2;
+  frc::Trajectory traj2Piece2;
+  frc::Trajectory traj2Score3;
+  frc::Trajectory trajSwitch;
+  bool takeSpeedBump;
   frc::Timer autoTimer;
   int autoState;
+  WaypointPoses waypointLib{};
 
   void Drive();
   void UpdatePose();
