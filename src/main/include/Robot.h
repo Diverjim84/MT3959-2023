@@ -10,32 +10,22 @@
 #include <frc/TimedRobot.h>
 #include <frc/XboxController.h>
 #include <frc/filter/SlewRateLimiter.h>
+
 #include <frc/smartdashboard/SmartDashboard.h>
+
 #include <frc/trajectory/Trajectory.h>
 #include <frc/trajectory/TrajectoryGenerator.h>
-#include <frc/trajectory/constraint/RectangularRegionConstraint.h>
-#include <frc/trajectory/constraint/MaxVelocityConstraint.h>
 #include <frc/smartdashboard/SendableChooser.h>
 
 #include <frc/MathUtil.h>
 #include <units/math.h>
 
-#include <networktables/NetworkTable.h>
-#include "networktables/NetworkTableEntry.h"
-#include "networktables/NetworkTableInstance.h"
-#include "networktables/NetworkTableValue.h"
-
-#include <frc/Notifier.h>
 
 #include <frc/DriverStation.h>
 
 #include "Drivetrain.h"
 #include "SwerveModule.h"
 #include "Constants.h"
-#include <frc/SerialPort.h>
-#include <networktables/NetworkTable.h>
-
-#include <rev/CANSparkMax.h>
 
 #include "LimeLight.h"
 #include "LoggingLevel.h"
@@ -68,6 +58,14 @@ private:
 
   LimeLight ll;
   
+
+  frc::Trajectory traj;
+  frc::Trajectory traj2;
+  frc::Trajectory traj3;
+  frc::Trajectory traj4;
+  frc::Trajectory traj5;
+  frc::Timer autoTimer;
+  int autoState;
 
   void Drive();
   void UpdatePose();
