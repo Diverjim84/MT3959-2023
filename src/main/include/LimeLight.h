@@ -13,7 +13,7 @@
 #include <units/length.h>
 #include "LoggingLevel.h"
 
-
+/*
 class LL3DPose{
 
 public:
@@ -34,7 +34,7 @@ public:
   };
 
   bool isVisable(){
-    if(pose3d.size()==6){
+    if(pose3d.size()>=6){
       return true;
     }else{
       return false;
@@ -44,6 +44,7 @@ public:
   std::vector<double> pose3d;
 
 };
+*/
 
 class LimeLight {
  
@@ -56,7 +57,7 @@ public:
 
 
 
-  bool IsTargetVisable();
+  bool IsTargetVisible();
 
   frc::Pose2d GetRobotPose();
 

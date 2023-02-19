@@ -9,7 +9,7 @@ LimeLight::LimeLight() {
 
 }
 
-bool LimeLight::IsTargetVisable(){
+bool LimeLight::IsTargetVisible(){
     
     double tv = m_limelight->GetNumber("tv", 0.0);
     if(tv== 0.0){
@@ -24,16 +24,18 @@ bool LimeLight::IsTargetVisable(){
   frc::Pose2d LimeLight::GetRobotPose(){
 
     //create storage vector for bot pose from limelight
-    LL3DPose pose3d{m_limelight->GetNumberArray("botpose",std::array<double, 6>{} )};
+    std::vector<double> data = m_limelight->GetNumberArray("botpose_wpiblue",std::array<double, 7>{} );
     //get 3d pose from limelight
-    return pose3d.GetPose2d();
-    
-    //translate 3d pose to 2d pose
-    //units::meter_t x{pose3d.at(0)};
-    //units::meter_t y{pose3d.at(1)};
-    //units::degree_t heading{pose3d.at(5)};
+    if(IsTargetVisible()){
+      //translate 3d pose to 2d pose
+      units::meter_t x{data.at(0)};
+      units::meter_t y{data.at(1)};
+      units::degree_t heading{data.at(5)};
 
-    //return frc::Pose2d(x,y,frc::Rotation2d(heading));
+      return frc::Pose2d(x,y,frc::Rotation2d(heading));
+    }else{
+      return frc::Pose2d(0_m,0_m,frc::Rotation2d(0_deg));
+    }
   }
 
   units::inch_t LimeLight::GetReflectiveTargetRange(double targetHight){
@@ -79,9 +81,9 @@ bool LimeLight::IsTargetVisable(){
         case LoggingLevel::Basic: //minimal useful data to driver
               {
                 frc::Pose2d p = GetRobotPose();
-                frc::SmartDashboard::PutBoolean("Limelight visable x", IsTargetVisable());
-                frc::SmartDashboard::PutNumber("Limelight pose x", p.X().value());
-                frc::SmartDashboard::PutNumber("Limelight pose y", p.Y().value());
+                frc::SmartDashboard::PutBoolean("Limelight visible", IsTargetVisible());
+                frc::SmartDashboard::PutNumber("Limelight pose x", units::inch_t( p.X()).value());
+                frc::SmartDashboard::PutNumber("Limelight pose y", units::inch_t( p.Y()).value());
                 frc::SmartDashboard::PutNumber("Limelight pose heading", p.Rotation().Degrees().value());
                 
               }
