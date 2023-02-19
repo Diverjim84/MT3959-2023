@@ -31,6 +31,7 @@
 #include "LoggingLevel.h"
 #include "MTechArm.h"
 #include "WaypointPoses.h"
+#include "AutoSelector.h"
 
 
 class Robot : public frc::TimedRobot {
@@ -69,10 +70,14 @@ private:
   bool takeSpeedBump;
   frc::Timer autoTimer;
   int autoState;
-  WaypointPoses waypointLib{};
+  waypoints::WaypointPoses waypointLib{};
 
   void Drive();
   void UpdatePose();
+
+  void Gen2PieceCorridor();
+  void Run2PieceCorridor();
+
 
  public:
 

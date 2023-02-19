@@ -4,9 +4,6 @@
       "open": false
     },
     "transitory": {
-      "SmartDashboard": {
-        "open": true
-      },
       "limelight": {
         "open": true
       }
