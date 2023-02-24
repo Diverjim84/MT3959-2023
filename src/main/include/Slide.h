@@ -21,6 +21,8 @@ CANCoder m_encoder; //declares encoder
     void SetSpeed(double MotorSpeed); //sets % motor speed
     void SetPosition(); // sets motor position between forward or back
 
+    void SendData(LoggingLevel verbose); //sends data to dash board
+
     void GetPosition(); //returns position
     void GetRawPosition(); //returns raw position
     void GetSpeed(); //returns speed

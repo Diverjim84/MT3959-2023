@@ -20,7 +20,9 @@ void Init();
 
 void SetIntakeSpeed(); //sets intake motor speed
 void SetAngularSpeed(); //sets angular motor speed
-void SetClawPosition(); //sets the intake type(cone, cube, wide, etc)
+void SetClawPosition(); //sets claw position
+
+void SendData(LoggingLevel verbose); //sends data to dash board
 
 void GetIntakeSpeed(); //returns intake speed
 void GetRawIntakeSpeed(); //returns raw intake speed
