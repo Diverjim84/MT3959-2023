@@ -8,6 +8,7 @@
 
 #include "LoggingLevel.h"
 #include "MTechArmConstants.h"
+#include "CTREHelpers.h"
 
 
 class Arm : public wpi::Sendable /*constructor*/{

@@ -20,31 +20,36 @@ void Arm::Init(ArmConstants constants){
 }
 
 void Arm::SetAngle(){
+    
     //closed loop set point function
 } 
 
 void Arm::SetSpeed(double rawMotorSpeed){
-    //sets motors to % output motor control
+    m_motor1.Set(motorcontrol::ControlMode::PercentOutput, rawMotorSpeed);
+    m_motor2.Set(motorcontrol::ControlMode::PercentOutput, rawMotorSpeed); //sets motors to % output motor control
 } 
 
 units::degree_t Arm::GetOffsetAngle(){
-    //double to get raw encoder value, then convert to degrees
-    return 0_deg;
+    double encoderRaw = m_encoder.ConfigGetParameter(ParamEnum::eMagnetOffset, 0); //offset angle
+    units::degree_t angle(encoderRaw); //convert to degrees
+    return angle;
 }
 
 units::degree_t Arm::GetAngle(){
-    //gets the angle the arm is currently at
-    return 0_deg; 
+    double encoderRaw = m_encoder.GetAbsolutePosition(); //gets the angle the arm is currently at
+    units::degree_t angle(encoderRaw); //convert to degrees
+    return angle; 
 }
 
 units::degree_t Arm::GetTargetAngle(){
-    //sends the angle the arm intended to go to - easier to calculate error
-    return 0_deg;
+    double motor1 = ctreHelpers::CTRE_Get_PID_Target(m_motor1); //sends the angle the arm intended to go to - easier to calculate error
+    units::degree_t angle(motor1);
+    return angle;
 }
 
 double Arm::GetRawAngle(){
-    //gets the angle without being zeroed out - encoder ticks
-    return 0.0;
+    double encoderRaw = m_encoder.GetAbsolutePosition(); //gets the angle without being zeroed out - encoder ticks
+    return encoderRaw;
 }
 
 double Arm::GetAngleError(){
@@ -53,8 +58,10 @@ double Arm::GetAngleError(){
 } 
 
 units::degrees_per_second_t Arm::GetSpeed(){
+    double encoderRaw = m_encoder.GetVelocity();
+    units::degrees_per_second_t speed(encoderRaw);
     //gets the speed of the arm in degrees per second as it rotates
-    return 0_deg_per_s;
+    return speed;
 }
 
 double Arm::GetMotorEncoderPosition(){
