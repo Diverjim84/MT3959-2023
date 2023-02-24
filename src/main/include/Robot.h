@@ -10,36 +10,28 @@
 #include <frc/TimedRobot.h>
 #include <frc/XboxController.h>
 #include <frc/filter/SlewRateLimiter.h>
+
 #include <frc/smartdashboard/SmartDashboard.h>
+
 #include <frc/trajectory/Trajectory.h>
 #include <frc/trajectory/TrajectoryGenerator.h>
-#include <frc/trajectory/constraint/RectangularRegionConstraint.h>
-#include <frc/trajectory/constraint/MaxVelocityConstraint.h>
 #include <frc/smartdashboard/SendableChooser.h>
 
 #include <frc/MathUtil.h>
 #include <units/math.h>
 
-#include <networktables/NetworkTable.h>
-#include "networktables/NetworkTableEntry.h"
-#include "networktables/NetworkTableInstance.h"
-#include "networktables/NetworkTableValue.h"
-
-#include <frc/Notifier.h>
 
 #include <frc/DriverStation.h>
 
 #include "Drivetrain.h"
 #include "SwerveModule.h"
 #include "Constants.h"
-#include <frc/SerialPort.h>
-#include <networktables/NetworkTable.h>
-
-#include <rev/CANSparkMax.h>
 
 #include "LimeLight.h"
 #include "LoggingLevel.h"
 #include "MTechArm.h"
+#include "WaypointPoses.h"
+#include "AutoSelector.h"
 
 
 class Robot : public frc::TimedRobot {
@@ -69,8 +61,23 @@ private:
   LimeLight ll;
   
 
+  frc::Trajectory traj2Score1;
+  frc::Trajectory traj2Piece1;
+  frc::Trajectory traj2Score2;
+  frc::Trajectory traj2Piece2;
+  frc::Trajectory traj2Score3;
+  frc::Trajectory trajSwitch;
+  bool takeSpeedBump;
+  frc::Timer autoTimer;
+  int autoState;
+  waypoints::WaypointPoses waypointLib{};
+
   void Drive();
   void UpdatePose();
+
+  void Gen2PieceCorridor();
+  void Run2PieceCorridor();
+
 
  public:
 
