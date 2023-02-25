@@ -8,6 +8,7 @@
 
 #include "LoggingLevel.h"
 #include "MTechArmConstants.h"
+#include "Constants.h"
 #include "CTREHelpers.h"
 
 
@@ -20,6 +21,8 @@ private:
     TalonFX m_motor2; //declares follower motor
 
     units::degree_t m_targetAngle; //shows the target angle of the motors/arm in degrees
+
+    void configDevices();
     
 public:
     
@@ -27,15 +30,11 @@ public:
     Arm(ArmConstants constants);
     void Init(ArmConstants constants);
 
-    void SetAngle(); //closed loop set point function
+    void SetAngle(units::degree_t goal); //closed loop set point function
     void SetSpeed(double rawMotorSpeed); //sets motors to % output motor control
 
     void SendData(LoggingLevel verbose); //sends LoggingLevel data to dashboard
     units::degree_t GetOffsetAngle(); //gives the offset of the angle in degrees
     units::degree_t GetAngle(); //gives the current angle in degrees
-    units::degree_t GetTargetAngle(); //gives the target angle in degrees
     double GetRawAngle(); //sends the raw angle w/o zeroing it out
-    double GetAngleError(); //sends the error from the raw angle to the true angle (zeroed out)
-    units::degrees_per_second_t GetSpeed(); //sends the speed of the motors in deg/sec
-    double GetMotorEncoderPosition(); //sends raw encoder position of motor
-};
+    };

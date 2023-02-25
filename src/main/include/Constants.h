@@ -29,7 +29,10 @@ namespace constants{
   constexpr double NominalVoltage = 12.0;
 
   //ArmConstants the_armConstants;
-    
+  namespace armConstants{
+    constexpr double TurnGearRatio = 75.0;
+  }
+
   namespace swerveConstants{
 
     constexpr int PigeonID = 32;
