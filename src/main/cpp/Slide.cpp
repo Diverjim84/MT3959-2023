@@ -4,7 +4,31 @@ void Slide::Init(){
     //set motors and encoders
 }
 
-void Slide::SetPosition(){
+void Slide::Config(){
+    m_motor.ConfigFactoryDefault();
+    m_encoder.ConfigFactoryDefault();
+
+    TalonFXConfiguration config;
+
+    config.slot0.kP = .01;
+    config.slot0.kF = .05;
+
+    double inchesPerSec = 0.25; 
+
+    config.motionCruiseVelocity = (inchesPerSec / 10.0) * (2048.0 * constants::slideConstants::MotorGearRatio / 360.0);
+    config.motionAcceleration = config.motionCruiseVelocity; // 1 sec for arm to achieve cruising velocity
+
+    //config.Motor1Config.initializationStrategy = phoenix::sensors::SensorInitializationStrategy::BootToZero;
+    m_motor.ConfigAllSettings(config);
+
+    CANCoderConfiguration eConfig;
+
+    eConfig.magnetOffsetDegrees = 0.0;
+    m_encoder.ConfigAllSettings(eConfig);
+
+}
+
+void Slide::SetPosition(units::inch_t position){
     //sets position
 }
 
@@ -12,32 +36,8 @@ void Slide::SetSpeed(double speed){
     //sets the speed of the motor
 }
 
-void Slide::GetPosition(){
+units::inch_t Slide::GetPosition(){
     //returns position
-}
-
-void Slide::GetRawPosition(){
-    //returns raw position
-}
-
-void Slide::GetSpeed(){
-    //returns speed of motor
-}
-
-void Slide::GetRawSpeed(){
-    //returns raw speed of motor
-}
-
-void Slide::GetTargetPosition(){
-    //returns the desired position(Forward or back)
-}
-
-void Slide::GetError(){
-    //detirmins and returns the error
-}
-
-void Slide::GetRawError(){
-    //returns raw error
 }
 
 void Slide::SendData(LoggingLevel verbose){
