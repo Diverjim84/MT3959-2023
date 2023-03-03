@@ -33,6 +33,16 @@ namespace constants{
     constexpr double TurnGearRatio = 75.0;
   }
 
+  namespace slideConstants{
+    constexpr double MotorGearRatio = 75.0;
+    constexpr double EncoderTicksPerInch = 600.0;
+  }
+
+  namespace elevatorConstants{
+    constexpr double MotorGearRatio = 75.0;
+    constexpr double EncoderTicksPerInch = 600.0;
+  }
+
   namespace swerveConstants{
 
     constexpr int PigeonID = 32;
