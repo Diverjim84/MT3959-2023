@@ -7,28 +7,23 @@
 #include <units/math.h>
 #include <wpi/sendable/Sendable.h>
 #include <ctre/Phoenix.h>
+#include <frc/DoubleSolenoid.h>
+#include <rev/CANSparkMax.h>
+#include <frc/smartdashboard/SmartDashboard.h>
 
 class Claw {
 
-TalonFX m_motorAngular; //declares angular motor
-TalonFX m_motorIntake; //declares intake motor
-CANCoder m_encoder; //declares encoder
+    rev::CANSparkMax m_motorRightIntake{3, rev::CANSparkMaxLowLevel::MotorType::kBrushless}; //declares intake motor
+    rev::CANSparkMax m_motorLeftIntake{4, rev::CANSparkMaxLowLevel::MotorType::kBrushless}; //declares intake motor
+    frc::DoubleSolenoid m_clawPistion{frc::PneumaticsModuleType::CTREPCM,1,0}; //swap 1 and 0 if pistion works in reverse
 
-    public:
+public:
 
-void Init();
+    void Init();
 
-void SetIntakeSpeed(); //sets intake motor speed
-void SetAngularSpeed(); //sets angular motor speed
-void SetClawPosition(); //sets claw position
+    void SetIntakeSpeed(double Speed); //sets intake motor speed
+    void ClawOpen(); //set claw position open
+    void ClawClose(); //set claw position close
 
-void SendData(LoggingLevel verbose); //sends data to dash board
-
-void GetIntakeSpeed(); //returns intake speed
-void GetRawIntakeSpeed(); //returns raw intake speed
-void GetAngularSpeed(); //return angular motor speed
-void GetRawAngularSpeed(); //returns raw angular speed
-void GetTargetPosition(); //returns target position
-void GetError(); //returns error
-void GetRawError(); //returns raw error
+    void SendData(LoggingLevel verbose); //sends data to dash board
 };

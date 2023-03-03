@@ -6,46 +6,22 @@
 
 void Claw::Init(){
     //sets motors and encoders
+    m_motorRightIntake.SetInverted(false);
+    m_motorLeftIntake.SetInverted(!m_motorRightIntake.GetInverted());
 }
 
-void Claw::SetIntakeSpeed(){
+void Claw::SetIntakeSpeed(double Speed){
     //sets intake motor speed
+    m_motorRightIntake.Set(Speed);
+    m_motorLeftIntake.Set(Speed);
 }
 
-void Claw::SetAngularSpeed(){
-    //sets angular motor speed
+void Claw::ClawOpen(){
+    m_clawPistion.Set(frc::DoubleSolenoid::Value::kForward);
 }
 
-void Claw::SetClawPosition(){
-    //sets claw intake type
-}
-
-void Claw::GetIntakeSpeed(){
-    //returns intake motor speed
-}
-
-void Claw::GetRawIntakeSpeed(){
-    //returns raw intake motor speed
-}
-
-void Claw::GetAngularSpeed(){
-    //returns angular motor speed
-}
-
-void Claw::GetRawAngularSpeed(){
-    //returns raw angular motor speed
-}
-
-void Claw::GetTargetPosition(){
-    //returns target intake position
-}
-
-void Claw::GetError(){
-    //determines and returns error
-}
-
-void Claw::GetRawError(){
-    //returns raw error
+void Claw::ClawClose(){
+    m_clawPistion.Set(frc::DoubleSolenoid::Value::kReverse);
 }
 
 void Claw::SendData(LoggingLevel verbose){
@@ -53,6 +29,11 @@ void Claw::SendData(LoggingLevel verbose){
     switch(verbose){
         case LoggingLevel::Everything: //everything that is not in the cases below it
                                     //continue
+                                    {
+                                        frc::SmartDashboard::PutNumber("Claw position", m_clawPistion.Get());
+                                        frc::SmartDashboard::PutNumber("Claw right", m_motorRightIntake.Get());
+                                        frc::SmartDashboard::PutNumber("Claw left", m_motorLeftIntake.Get());
+                                    }
         case LoggingLevel::PID: //send PID (closed loop control) data
                                     //continue
         case LoggingLevel::Basic: //minimal useful data to driver
