@@ -20,7 +20,8 @@ void Arm::Init(ArmConstants constants){
 
     //zeroing the sensors
     m_motor1.SetSelectedSensorPosition(0);
-    m_motor2.SetSelectedSensorPosition(0);    
+    m_motor2.SetSelectedSensorPosition(0); 
+   
 }
 
 void Arm::configDevices(){
@@ -41,7 +42,13 @@ void Arm::configDevices(){
     config.motionAcceleration = config.motionCruiseVelocity; // 1 sec for arm to achieve cruising velocity
 
     //config.Motor1Config.initializationStrategy = phoenix::sensors::SensorInitializationStrategy::BootToZero;
+    m_motor1.ConfigAllSettings(config);
+    m_motor2.ConfigAllSettings(config);
 
+    CANCoderConfiguration eConfig;
+
+    eConfig.magnetOffsetDegrees = 0.0;
+    m_encoder.ConfigAllSettings(eConfig);
 
 }
 
@@ -50,7 +57,7 @@ void Arm::SetAngle(units::degree_t goal){
 
     double turnTarget = m_motor1.GetSelectedSensorPosition()+deltaDeg*(2048.0*constants::armConstants::TurnGearRatio/360.0); //how many ticks away the goal is
 
-    m_motor1.Set(motorcontrol::ControlMode::MotionMagic, turnTarget); //tells motor controller to go to turnaTarget with MotionMagic
+    m_motor1.Set(motorcontrol::ControlMode::MotionMagic, turnTarget); //tells motor controller to go to turnTarget with MotionMagic
     //closed loop set point function
 } 
 
@@ -82,13 +89,27 @@ void Arm::SendData(LoggingLevel verbose){
     switch(verbose){
         case LoggingLevel::Everything: //everything that is not in the cases below it
                                     //continue
+                                    {
+                                        frc::SmartDashboard::PutNumber(" heading", GetAngle().value());
+                                        frc::SmartDashboard::PutNumber(" raw turn encoder position", m_encoder.GetAbsolutePosition());
+                                    }
         case LoggingLevel::PID: //send PID (closed loop control) data
+                                    //continue
+                                    {
+                                        frc::SmartDashboard::PutNumber(" raw turn pid target", ctreHelpers::CTRE_Get_PID_Target(m_motor1)); //target of motor
+                                        frc::SmartDashboard::PutNumber(" raw turn pid error", ctreHelpers::CTRE_Get_PID_Error(m_motor1)); //error 
+                                    }
                                     //continue
         case LoggingLevel::Basic: //minimal useful data to driver
                                     //continue
+                                    {
+                                            frc::SmartDashboard::PutNumber(" arm speed", m_motor1.GetSelectedSensorVelocity());
+                                            frc::SmartDashboard::PutNumber(" raw arm position", m_motor1.GetSelectedSensorPosition());
+                                    }
         default: break; //make sure nothing else prints
         
 
     }
 }
+
 
