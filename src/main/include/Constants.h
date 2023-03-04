@@ -34,12 +34,12 @@ namespace constants{
   }
 
   namespace slideConstants{
-    constexpr double MotorGearRatio = 75.0;
+    constexpr double MotorGearRatio = 5.0;
     constexpr double EncoderTicksPerInch = 600.0;
   }
 
   namespace elevatorConstants{
-    constexpr double MotorGearRatio = 75.0;
+    constexpr double MotorGearRatio = 15.0;
     constexpr double EncoderTicksPerInch = 600.0;
   }
 
