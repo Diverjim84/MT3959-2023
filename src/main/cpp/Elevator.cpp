@@ -7,7 +7,7 @@ Elevator::Elevator(constants::elevatorConstants::elevatorMotors constants):
       m_motor12(constants.motor2_ID)
 
 {
-    //constructor- declaring constants for arm
+    //constructor- declaring constants for elevator
 }
 
 
