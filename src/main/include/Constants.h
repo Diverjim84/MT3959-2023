@@ -41,6 +41,17 @@ namespace constants{
   namespace elevatorConstants{
     constexpr double MotorGearRatio = 75.0;
     constexpr double EncoderTicksPerInch = 600.0;
+
+    struct elevatorMotors{
+    int motor1_ID;
+    int motor2_ID;
+    int encoder_ID;
+
+    CANCoderConfiguration EncoderConfig; //ctre config data
+    TalonFXConfiguration Motor1Config; 
+    TalonFXConfiguration Motor2Config;
+};
+
   }
 
   namespace swerveConstants{
