@@ -5,6 +5,7 @@
 #include <units/angular_velocity.h>
 #include <wpi/sendable/Sendable.h>
 #include <ctre/Phoenix.h>
+#include <frc/smartdashboard/SmartDashboard.h>
 
 #include "LoggingLevel.h"
 #include "MTechArmConstants.h"
