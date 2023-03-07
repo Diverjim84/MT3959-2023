@@ -1,16 +1,13 @@
 #include "MTechArm.h" //header file
 
-Arm::Arm(ArmConstants constants): 
-      m_encoder(constants.encoderID),
-      m_motor1(constants.motor1ID),
-      m_motor2(constants.motor2ID)
-      
-
+Arm::Arm()
 {
     //constructor- declaring constants for arm
+    configDevices();
+    Init();
 }
 
-void Arm::Init(ArmConstants constants){
+void Arm::Init(){
 //initialization for the code
     m_motor2.Follow(m_motor1); //slave follow
 

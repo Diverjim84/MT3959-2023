@@ -31,26 +31,31 @@ namespace constants{
   //ArmConstants the_armConstants;
   namespace armConstants{
     constexpr double TurnGearRatio = 75.0;
+
+    constexpr int MasterMotorID = 16;
+    constexpr int SlaveMotorID = 17;
+    constexpr int EncoderID = 9;
+    const std::string CANBus = "Can1";//"rio";
   }
 
   namespace slideConstants{
     constexpr double MotorGearRatio = 5.0;
     constexpr double EncoderTicksPerInch = 600.0;
+    
+    constexpr int MotorID = 21;
+    constexpr int EncoderID = 11;
+    const std::string CANBus = "Can1";//"rio";
   }
 
   namespace elevatorConstants{
     constexpr double MotorGearRatio = 15.0;
     constexpr double EncoderTicksPerInch = 600.0;
+    
+    constexpr int MasterMotorID = 19;
+    constexpr int SlaveMotorID = 20;
+    constexpr int EncoderID = 10;
 
-    struct elevatorMotors{
-    int motor1_ID;
-    int motor2_ID;
-    int encoder_ID;
-
-    CANCoderConfiguration EncoderConfig; //ctre config data
-    TalonFXConfiguration Motor1Config; 
-    TalonFXConfiguration Motor2Config;
-};
+    const std::string CANBus = "Can1";//"rio";
 
   }
 
@@ -59,7 +64,7 @@ namespace constants{
     constexpr int PigeonID = 32;
     constexpr bool PigeonInverted = false;
 
-    const std::string DriveCANBus = "rio";//"Can1";
+    const std::string DriveCANBus = "Can1";//"rio";
     constexpr units::millisecond_t DriveCANBusPeriod = 20_ms;
 
     constexpr double RotGain = 1.5;//for controlling the heading closed loop

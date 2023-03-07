@@ -1,10 +1,16 @@
 #include "Slide.h"
 
+
+
+Slide::Slide(){
+
+}
+
 void Slide::Init(){
     //set motors and encoders
 }
 
-void Slide::Config(){
+void Slide::configDevices(){
     m_motor.ConfigFactoryDefault();
     m_encoder.ConfigFactoryDefault();
 
@@ -34,6 +40,7 @@ void Slide::SetPosition(units::inch_t position){
 
 void Slide::SetSpeed(double speed){
     //sets the speed of the motor
+    m_motor.Set(ControlMode::PercentOutput, speed);
 }
 
 units::inch_t Slide::GetPosition(){

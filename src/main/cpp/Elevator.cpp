@@ -1,35 +1,36 @@
 #include "Elevator.h" //header file
 
 
-Elevator::Elevator(constants::elevatorConstants::elevatorMotors constants): 
-      m_encoder(constants.encoder_ID),
-      m_motor11(constants.motor1_ID),
-      m_motor12(constants.motor2_ID)
-
+Elevator::Elevator()
 {
     //constructor- declaring constants for elevator
+    Init();
+
 }
 
 
-void Elevator::Init(constants::elevatorConstants::elevatorMotors constants){
+void Elevator::Init(){
 //initialization for the code
-    m_motor12.Follow(m_motor11); //slave follow
+
+    m_motor2.Follow(m_motor1); //slave follow
 
     //inverting motor
-    m_motor11.SetInverted(TalonFXInvertType::Clockwise);    
-    m_motor12.SetInverted(TalonFXInvertType::CounterClockwise);
+    m_motor1.SetInverted(TalonFXInvertType::Clockwise);    
+    m_motor2.SetInverted(m_motor1.GetInverted());
 
     //zeroing the sensors
-    m_motor11.SetSelectedSensorPosition(0);
-    m_motor12.SetSelectedSensorPosition(0); 
+    m_motor1.SetSelectedSensorPosition(0);
+    m_motor2.SetSelectedSensorPosition(0); 
    
 }
+void Elevator::configDevices(){
 
+}
       
 
 void Elevator::SetSpeed(double rawMotorSpeed){
-    m_motor11.Set(motorcontrol::ControlMode::PercentOutput, rawMotorSpeed);
-    m_motor12.Set(motorcontrol::ControlMode::PercentOutput, rawMotorSpeed); //sets motors to % output motor control
+    m_motor1.Set(motorcontrol::ControlMode::PercentOutput, rawMotorSpeed);
+    m_motor2.Set(motorcontrol::ControlMode::PercentOutput, rawMotorSpeed); //sets motors to % output motor control
 } 
 
 void Elevator::SendData(LoggingLevel verbose){

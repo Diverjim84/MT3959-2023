@@ -11,22 +11,25 @@
 #include "Constants.h"
 #include "CTREHelpers.h"
 
-class Elevator : public wpi::Sendable /*constructor*/{
+class Elevator : public wpi::Sendable {
 private:
-    CANCoder m_encoder; //declares encoder
+    CANCoder m_encoder{constants::elevatorConstants::EncoderID, constants::armConstants::CANBus}; //declares encoder
 
-    TalonFX m_motor11; //declares master motor
-    TalonFX m_motor12; //declares slave motor
+    TalonFX m_motor1{constants::elevatorConstants::MasterMotorID, constants::armConstants::CANBus}; //declares master motor
+    TalonFX m_motor2{constants::elevatorConstants::SlaveMotorID, constants::armConstants::CANBus}; //declares slave motor
 
 public:
     
     
-    Elevator(constants::elevatorConstants::elevatorMotors constants);
-    void Init(constants::elevatorConstants::elevatorMotors constants);
- 
+    Elevator();
+    void Init();
+    void configDevices();
 
     void SetSpeed(double rawMotorSpeed); //sets motors to % output motor control
-    
-    void SendData(LoggingLevel verbose); //sends LoggingLevel data to dashboard
+
     units::degrees_per_second_t GetSpeed(); //sends the speed of the motors in deg/sec
+
+    void InitSendable(wpi::SendableBuilder& builder){};
+    void SendData(LoggingLevel verbose); //sends LoggingLevel data to dashboard
+    
 };

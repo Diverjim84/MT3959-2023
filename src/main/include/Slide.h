@@ -9,16 +9,16 @@
 #include <ctre/Phoenix.h>
 #include "Constants.h"
 
-class Slide {
+class Slide : public wpi::Sendable {
 
-TalonFX m_motor{5}; //declares motor
-CANCoder m_encoder{6}; //declares encoder
+TalonFX m_motor{constants::slideConstants::MotorID, constants::slideConstants::CANBus}; //declares motor
+CANCoder m_encoder{constants::slideConstants::EncoderID, constants::slideConstants::CANBus}; //declares encoder
 
 
 public:
-    
+    Slide();
     void Init();
-    void Config();
+    void configDevices();
 
     void SetSpeed(double MotorSpeed); //sets % motor speed
     void SetPosition(units::inch_t position); // sets motor position between forward or back
@@ -26,6 +26,7 @@ public:
     void SlideForward();
     void SlideBack();
 
+    void InitSendable(wpi::SendableBuilder& builder){};
     void SendData(LoggingLevel verbose); //sends data to dash board
 
     units::inch_t GetPosition(); //returns position
