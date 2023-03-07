@@ -13,7 +13,8 @@ namespace autoSelector{
         Grid3Pos2,
         Grid1Pos3,
         Grid2Pos3,
-        Grid3Pos3
+        Grid3Pos3,
+        Switch
     };
     
     class ScorePositionPose{

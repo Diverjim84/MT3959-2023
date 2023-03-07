@@ -30,6 +30,8 @@
 #include "LimeLight.h"
 #include "LoggingLevel.h"
 #include "MTechArm.h"
+#include "Elevator.h"
+#include "Slide.h"
 #include "WaypointPoses.h"
 #include "AutoSelector.h"
 
@@ -39,6 +41,10 @@ class Robot : public frc::TimedRobot {
 private:
   frc::XboxController driver{0};
   frc::XboxController codriver{1};
+
+  Slide m_slide{};
+  Elevator m_elevator{};
+  Arm m_arm{};
 
   double m_speedScale;
 
@@ -51,7 +57,7 @@ private:
   enum DriveMode{
     VelocityMode,
     HeadingControl
-    //,TargetTracking
+    ,TargetTracking
   } driveMode;
 
   constants::swerveConstants::SwerveConfig config;
@@ -71,13 +77,30 @@ private:
   frc::Timer autoTimer;
   int autoState;
   waypoints::WaypointPoses waypointLib{};
+  frc::SendableChooser<autoSelector::ScorePosition> Score0Chooser;
+
+  enum AutoRoutine {
+      k2PieceCorridor,  
+      k2PieceCorridorSwitch,
+      kSimpleSwitch 
+  } m_autoSelected;
+
+  frc::SendableChooser<AutoRoutine> m_autoChooser;
+  const std::string a_2PieceCorridor = "2 Piece Corridor";
+  const std::string a_2PieceCorridorSwitch = "2 Piece Corridor and Switch";
+  const std::string a_SimpleSwitch = "1 Piece and Switch";
+  
 
   void Drive();
   void UpdatePose();
 
   void Gen2PieceCorridor();
   void Run2PieceCorridor();
+  void GenSimpleSwitch();
+  void RunSimpleSwitch();
+  void GenTraj();
 
+  void TrackToGoal(frc::Pose2d goal);
 
  public:
 
