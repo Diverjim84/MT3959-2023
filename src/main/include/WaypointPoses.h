@@ -26,83 +26,85 @@ constexpr units::inch_t BlueTapeX = 40.45_in + 14.25_in;
 constexpr units::inch_t Grid3Y = 174.19_in;
 constexpr units::inch_t Grid2Y = 108.19_in;
 constexpr units::inch_t Grid1Y = 42.19_in;
+constexpr units::degree_t RedHeading = 0_deg;
+constexpr units::degree_t BlueHeading = 180_deg;
 
 constexpr frc::Pose2d Red1Right{  RedTapeX - constants::swerveConstants::WheelBaseLength/2.0, 
                             Grid1Y - 22_in, 
-                            frc::Rotation2d(180_deg)
+                            frc::Rotation2d(RedHeading)
                           };
 constexpr frc::Pose2d Red1Center{ RedTapeX - constants::swerveConstants::WheelBaseLength/2.0, 
                             Grid1Y, 
-                            frc::Rotation2d(180_deg)
+                            frc::Rotation2d(RedHeading)
                           };
 constexpr frc::Pose2d Red1Left{ RedTapeX - constants::swerveConstants::WheelBaseLength/2.0, 
                           Grid1Y + 22_in, 
-                          frc::Rotation2d(180_deg)
+                          frc::Rotation2d(RedHeading)
                         };
 
 constexpr frc::Pose2d Red2Right{  RedTapeX - constants::swerveConstants::WheelBaseLength/2.0, 
                             Grid2Y - 22_in, 
-                            frc::Rotation2d(180_deg)
+                            frc::Rotation2d(RedHeading)
                           };
 constexpr frc::Pose2d Red2Center{ RedTapeX - constants::swerveConstants::WheelBaseLength/2.0, 
                             Grid2Y, 
-                            frc::Rotation2d(180_deg)
+                            frc::Rotation2d(RedHeading)
                           };
 constexpr frc::Pose2d Red2Left{ RedTapeX - constants::swerveConstants::WheelBaseLength/2.0, 
                           Grid2Y + 22_in, 
-                          frc::Rotation2d(180_deg)
+                          frc::Rotation2d(RedHeading)
                         };
     
 constexpr frc::Pose2d Red3Right{  RedTapeX - constants::swerveConstants::WheelBaseLength/2.0, 
                             Grid3Y - 22_in, 
-                            frc::Rotation2d(180_deg)
+                            frc::Rotation2d(RedHeading)
                           };
 constexpr frc::Pose2d Red3Center{ RedTapeX - constants::swerveConstants::WheelBaseLength/2.0, 
                             Grid3Y, 
-                            frc::Rotation2d(180_deg)
+                            frc::Rotation2d(RedHeading)
                           };
 constexpr frc::Pose2d Red3Left{ RedTapeX - constants::swerveConstants::WheelBaseLength/2.0, 
                           Grid3Y + 22_in, 
-                          frc::Rotation2d(180_deg)
+                          frc::Rotation2d(RedHeading)
                         };
 
 constexpr frc::Pose2d Blue8Right{ BlueTapeX + constants::swerveConstants::WheelBaseLength/2.0, 
                             Grid1Y + 22_in, 
-                            frc::Rotation2d(0_deg)
+                            frc::Rotation2d(BlueHeading)
                           };
 constexpr frc::Pose2d Blue8Center{ BlueTapeX + constants::swerveConstants::WheelBaseLength/2.0, 
                             Grid1Y, 
-                            frc::Rotation2d(0_deg)
+                            frc::Rotation2d(BlueHeading)
                           };
 constexpr frc::Pose2d Blue8Left{ BlueTapeX + constants::swerveConstants::WheelBaseLength/2.0, 
                           Grid1Y - 22_in, 
-                          frc::Rotation2d(0_deg)
+                          frc::Rotation2d(BlueHeading)
                         };
 
 constexpr frc::Pose2d Blue7Right{ BlueTapeX + constants::swerveConstants::WheelBaseLength/2.0, 
                             Grid2Y + 22_in, 
-                            frc::Rotation2d(0_deg)
+                            frc::Rotation2d(BlueHeading)
                           };
 constexpr frc::Pose2d Blue7Center{ BlueTapeX + constants::swerveConstants::WheelBaseLength/2.0, 
                             Grid2Y, 
-                            frc::Rotation2d(0_deg)
+                            frc::Rotation2d(BlueHeading)
                           };
 constexpr frc::Pose2d Blue7Left{ BlueTapeX + constants::swerveConstants::WheelBaseLength/2.0, 
                           Grid2Y - 22_in, 
-                          frc::Rotation2d(0_deg)
+                          frc::Rotation2d(BlueHeading)
                         };
     
 constexpr frc::Pose2d Blue6Right{ BlueTapeX + constants::swerveConstants::WheelBaseLength/2.0, 
                             Grid3Y + 22_in, 
-                            frc::Rotation2d(0_deg)
+                            frc::Rotation2d(BlueHeading)
                           };
 constexpr frc::Pose2d Blue6Center{ BlueTapeX + constants::swerveConstants::WheelBaseLength/2.0, 
                             Grid3Y, 
-                            frc::Rotation2d(0_deg)
+                            frc::Rotation2d(BlueHeading)
                           };
 constexpr frc::Pose2d Blue6Left{ BlueTapeX + constants::swerveConstants::WheelBaseLength/2.0, 
                           Grid3Y - 22_in, 
-                          frc::Rotation2d(0_deg)
+                          frc::Rotation2d(BlueHeading)
                         };
     
 
