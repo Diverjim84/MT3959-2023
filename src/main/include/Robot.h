@@ -16,6 +16,7 @@
 #include <frc/trajectory/Trajectory.h>
 #include <frc/trajectory/TrajectoryGenerator.h>
 #include <frc/smartdashboard/SendableChooser.h>
+#include <frc/Compressor.h>
 
 #include <frc/MathUtil.h>
 #include <units/math.h>
@@ -34,6 +35,8 @@
 #include "Slide.h"
 #include "WaypointPoses.h"
 #include "AutoSelector.h"
+#include <units/pressure.h>
+
 
 
 class Robot : public frc::TimedRobot {
@@ -46,12 +49,17 @@ private:
   Elevator m_elevator{};
   Arm m_arm{};
 
+  frc::Compressor m_compressor{1, frc::PneumaticsModuleType::REVPH};
+
+  
+
+
   double m_speedScale;
 
   // Slew rate limiters to make joystick inputs more gentle; 1/3 sec from 0
   // to 1.
-  frc::SlewRateLimiter<units::scalar> m_xspeedLimiter{3 / 1_s};
-  frc::SlewRateLimiter<units::scalar> m_yspeedLimiter{3 / 1_s};
+  frc::SlewRateLimiter<units::scalar> m_xspeedLimiter{1.5 / 1_s};
+  frc::SlewRateLimiter<units::scalar> m_yspeedLimiter{1.5 / 1_s};
   frc::SlewRateLimiter<units::scalar> m_rotLimiter{3 / 1_s};
 
   enum DriveMode{
@@ -101,6 +109,13 @@ private:
   void GenTraj();
 
   void TrackToGoal(frc::Pose2d goal);
+
+  void PickupPos();
+  void GroundPos();
+  void MidPos();
+  void HighPos();
+  void TuckPos();
+  void UpTuckPos();
 
  public:
 

@@ -8,11 +8,13 @@
 #include <wpi/sendable/Sendable.h>
 #include <ctre/Phoenix.h>
 #include "Constants.h"
+#include <frc/smartdashboard/SmartDashboard.h>
+#include "CTREHelpers.h"
 
 class Slide : public wpi::Sendable {
 
 TalonFX m_motor{constants::slideConstants::MotorID, constants::slideConstants::CANBus}; //declares motor
-CANCoder m_encoder{constants::slideConstants::EncoderID, constants::slideConstants::CANBus}; //declares encoder
+//CANCoder m_encoder{constants::slideConstants::EncoderID, constants::slideConstants::CANBus}; //declares encoder
 
 
 public:

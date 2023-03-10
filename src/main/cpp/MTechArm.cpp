@@ -13,12 +13,11 @@ void Arm::Init(){
 
     //inverting motor
     m_motor1.SetInverted(TalonFXInvertType::Clockwise);    
-    m_motor2.SetInverted(TalonFXInvertType::CounterClockwise);
+    m_motor2.SetInverted(!m_motor1.GetInverted());
 
     //zeroing the sensors
-    m_motor1.SetSelectedSensorPosition(0);
-    m_motor2.SetSelectedSensorPosition(0); 
-   
+    m_motor1.SetSelectedSensorPosition(m_encoder.GetAbsolutePosition()*constants::armConstants::TicksPerDegree);
+    
 }
 
 void Arm::configDevices(){
@@ -30,37 +29,45 @@ void Arm::configDevices(){
 
     TalonFXConfiguration config;
 
+    config.forwardSoftLimitThreshold = 140.0*constants::armConstants::TicksPerDegree;
+    config.reverseSoftLimitThreshold = -135.0*constants::armConstants::TicksPerDegree;
+    config.forwardSoftLimitEnable = false;
+    config.reverseSoftLimitEnable = false;
+
     config.slot0.kP = .01;
     config.slot0.kF = .05;
 
-    double degreesPerSec = 1.0; 
+    double degreesPerSec = 100.0; 
 
-    config.motionCruiseVelocity = (degreesPerSec / 10.0) * (2048.0 * constants::armConstants::TurnGearRatio / 360.0);
-    config.motionAcceleration = config.motionCruiseVelocity; // 1 sec for arm to achieve cruising velocity
+    config.motionCruiseVelocity = (degreesPerSec / 10.0) * constants::armConstants::TicksPerDegree;
+    config.motionAcceleration = 4.0*config.motionCruiseVelocity; // 1 sec for arm to achieve cruising velocity
+    config.motionCurveStrength = 2;
 
     //config.Motor1Config.initializationStrategy = phoenix::sensors::SensorInitializationStrategy::BootToZero;
     m_motor1.ConfigAllSettings(config);
-    m_motor2.ConfigAllSettings(config);
+    //m_motor2.ConfigAllSettings(config);
 
     CANCoderConfiguration eConfig;
 
-    eConfig.magnetOffsetDegrees = 0.0;
+    eConfig.magnetOffsetDegrees = 32.0;
+    eConfig.absoluteSensorRange = AbsoluteSensorRange::Signed_PlusMinus180;
     m_encoder.ConfigAllSettings(eConfig);
 
 }
 
 void Arm::SetAngle(units::degree_t goal){
-    double deltaDeg = frc::Rotation2d(goal-GetAngle()).Degrees().value(); //how far away goal is from now
-
-    double turnTarget = m_motor1.GetSelectedSensorPosition()+deltaDeg*(2048.0*constants::armConstants::TurnGearRatio/360.0); //how many ticks away the goal is
-
-    m_motor1.Set(motorcontrol::ControlMode::MotionMagic, turnTarget); //tells motor controller to go to turnTarget with MotionMagic
+    
+    double turnTarget = goal.value()*constants::armConstants::TicksPerDegree; //how many ticks away the goal is
+    
+    double rads = units::radian_t(goal).value();
+    double arbFF = 0.09 * std::cos(rads);
+    m_motor1.Set(motorcontrol::ControlMode::MotionMagic, turnTarget, DemandType::DemandType_ArbitraryFeedForward, arbFF); //tells motor controller to go to turnTarget with MotionMagic
     //closed loop set point function
 } 
 
 void Arm::SetSpeed(double rawMotorSpeed){
     m_motor1.Set(motorcontrol::ControlMode::PercentOutput, rawMotorSpeed);
-    m_motor2.Set(motorcontrol::ControlMode::PercentOutput, rawMotorSpeed); //sets motors to % output motor control
+    
 } 
 
 units::degree_t Arm::GetOffsetAngle(){
@@ -87,21 +94,25 @@ void Arm::SendData(LoggingLevel verbose){
         case LoggingLevel::Everything: //everything that is not in the cases below it
                                     //continue
                                     {
-                                        frc::SmartDashboard::PutNumber(" heading", GetAngle().value());
-                                        frc::SmartDashboard::PutNumber(" raw turn encoder position", m_encoder.GetAbsolutePosition());
+                                        frc::SmartDashboard::PutNumber("Arm raw speed", m_motor1.GetSelectedSensorVelocity());
+                                        frc::SmartDashboard::PutNumber("Arm raw position", m_motor1.GetSelectedSensorPosition());
+                                        frc::SmartDashboard::PutNumber("Arm Estimated Raw position", m_encoder.GetAbsolutePosition()*constants::armConstants::TicksPerDegree);
+                                        frc::SmartDashboard::PutNumber("Arm Soft Lim Rev", -135.0*constants::armConstants::TicksPerDegree);
+                                        frc::SmartDashboard::PutNumber("Arm Soft Lim For", 225.0*constants::armConstants::TicksPerDegree);
                                     }
         case LoggingLevel::PID: //send PID (closed loop control) data
                                     //continue
                                     {
-                                        frc::SmartDashboard::PutNumber(" raw turn pid target", ctreHelpers::CTRE_Get_PID_Target(m_motor1)); //target of motor
-                                        frc::SmartDashboard::PutNumber(" raw turn pid error", ctreHelpers::CTRE_Get_PID_Error(m_motor1)); //error 
+                                        frc::SmartDashboard::PutNumber("Arm raw turn pid target", ctreHelpers::CTRE_Get_PID_Target(m_motor1)); //target of motor
+                                        frc::SmartDashboard::PutNumber("Arm raw turn pid error", ctreHelpers::CTRE_Get_PID_Error(m_motor1)); //error 
+                                        frc::SmartDashboard::PutNumber("Arm Output %", m_motor1.GetMotorOutputPercent()); //error 
                                     }
                                     //continue
         case LoggingLevel::Basic: //minimal useful data to driver
                                     //continue
                                     {
-                                            frc::SmartDashboard::PutNumber(" arm speed", m_motor1.GetSelectedSensorVelocity());
-                                            frc::SmartDashboard::PutNumber(" raw arm position", m_motor1.GetSelectedSensorPosition());
+                                            frc::SmartDashboard::PutNumber("Arm Angle", GetAngle().value());
+                                            
                                     }
         default: break; //make sure nothing else prints
         

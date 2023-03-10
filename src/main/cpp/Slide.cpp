@@ -4,38 +4,61 @@
 
 Slide::Slide(){
 
+    configDevices();
+    Init();
+
 }
 
 void Slide::Init(){
     //set motors and encoders
+    
+    m_motor.SetSelectedSensorPosition(0);
+    
+
+
 }
 
 void Slide::configDevices(){
     m_motor.ConfigFactoryDefault();
-    m_encoder.ConfigFactoryDefault();
-
+    
     TalonFXConfiguration config;
 
-    config.slot0.kP = .01;
+    config.clearPositionOnLimitR = true;
+    config.forwardLimitSwitchSource = LimitSwitchSource_FeedbackConnector;
+    config.forwardLimitSwitchNormal = LimitSwitchNormal_NormallyOpen;
+    config.reverseLimitSwitchSource = LimitSwitchSource_FeedbackConnector;
+    config.reverseLimitSwitchNormal = LimitSwitchNormal_NormallyOpen;
+
+    
+    
+
+    config.slot0.kP = .04;
     config.slot0.kF = .05;
+    config.slot0.allowableClosedloopError = 50.0;
 
-    double inchesPerSec = 0.25; 
+    double inchesPerSec = 24.0; 
 
-    config.motionCruiseVelocity = (inchesPerSec / 10.0) * (2048.0 * constants::slideConstants::MotorGearRatio / 360.0);
-    config.motionAcceleration = config.motionCruiseVelocity; // 1 sec for arm to achieve cruising velocity
 
-    //config.Motor1Config.initializationStrategy = phoenix::sensors::SensorInitializationStrategy::BootToZero;
+    config.motionCruiseVelocity = (constants::slideConstants::EncoderTicksPerInch*inchesPerSec)/10.0;
+    config.motionAcceleration = 6.0*config.motionCruiseVelocity; // 1/6 sec for arm to achieve cruising velocity
+    config.motionCurveStrength = 6;
+
     m_motor.ConfigAllSettings(config);
+    m_motor.SetInverted(TalonFXInvertType::Clockwise);
+
+/*
+    m_encoder.ConfigFactoryDefault();
 
     CANCoderConfiguration eConfig;
 
     eConfig.magnetOffsetDegrees = 0.0;
     m_encoder.ConfigAllSettings(eConfig);
-
+*/
 }
 
 void Slide::SetPosition(units::inch_t position){
     //sets position
+    m_motor.Set(ControlMode::MotionMagic, constants::slideConstants::EncoderTicksPerInch*position.value());
 }
 
 void Slide::SetSpeed(double speed){
@@ -44,6 +67,7 @@ void Slide::SetSpeed(double speed){
 }
 
 units::inch_t Slide::GetPosition(){
+    return units::inch_t(m_motor.GetSelectedSensorPosition()/constants::slideConstants::EncoderTicksPerInch);
     //returns position
 }
 
@@ -51,10 +75,21 @@ void Slide::SendData(LoggingLevel verbose){
     //sends data to dashboard with the enum LoggingLevel
     switch(verbose){
         case LoggingLevel::Everything: //everything that is not in the cases below it
+            {
+                frc::SmartDashboard::PutNumber("raw Slide position", m_motor.GetSelectedSensorPosition());
+            }
                                     //continue
         case LoggingLevel::PID: //send PID (closed loop control) data
+            {
+                frc::SmartDashboard::PutNumber("Slide Error", ctreHelpers::CTRE_Get_PID_Error(m_motor));
+                frc::SmartDashboard::PutNumber("Slide Target", ctreHelpers::CTRE_Get_PID_Target(m_motor));
+                frc::SmartDashboard::PutNumber("Slide PID Output%", m_motor.GetMotorOutputPercent());
+            }
                                     //continue
         case LoggingLevel::Basic: //minimal useful data to driver
+            {
+                frc::SmartDashboard::PutNumber("Slide position (in)", GetPosition().value());
+            }
                                     //continue
         default: break; //make sure nothing else prints
         

@@ -28,7 +28,11 @@ void Robot::RobotInit() {
 
   m_swerve.ResetDriveEncoders();  
 
-  
+  m_arm.Init();
+  m_slide.Init();
+  m_elevator.Init();
+
+  //m_compressor.EnableAnalog(110.0_psi, 115.0_psi);
 
 }
 
@@ -55,6 +59,12 @@ void Robot::RobotPeriodic() {
   frc::SmartDashboard::PutNumber("Bot Pose X", units::inch_t( bp.X()).value());
   frc::SmartDashboard::PutNumber("Bot Pose Y", units::inch_t( bp.Y()).value());
   frc::SmartDashboard::PutNumber("Bot Pose Heading", bp.Rotation().Degrees().value());
+
+  //frc::SmartDashboard::PutNumber("Compressor Pressure (psi)", m_compressor.GetPressure().value());
+
+  m_slide.SendData(LoggingLevel::Everything);
+  m_arm.SendData(LoggingLevel::Everything);
+  m_elevator.SendData(LoggingLevel::Everything);
 
   //m_swerve.SendData();
 
@@ -357,6 +367,45 @@ void Robot::TrackToGoal(frc::Pose2d goal){
 
 }
 
+void Robot::PickupPos(){
+  m_arm.SetAngle(60_deg);
+  m_slide.SetPosition(0_in);
+  m_elevator.SetHeight(3_in);
+
+}
+
+void Robot::GroundPos(){
+  m_arm.SetAngle(-90_deg);
+  m_slide.SetPosition(0_in);
+  m_elevator.SetHeight(3_in);
+
+}
+
+void Robot::MidPos(){
+  m_arm.SetAngle(40_deg);
+  m_slide.SetPosition(0_in);
+  m_elevator.SetHeight(3_in);
+}
+
+void Robot::HighPos(){
+  m_arm.SetAngle(25_deg);
+  m_slide.SetPosition(14_in);
+  m_elevator.SetHeight(18_in);
+}
+
+void Robot::TuckPos(){
+  m_arm.SetAngle(-130_deg);
+  m_slide.SetPosition(0_in);
+  m_elevator.SetHeight(3_in);
+
+}
+
+void Robot::UpTuckPos(){
+  m_arm.SetAngle(130_deg);
+  m_slide.SetPosition(0_in);
+  m_elevator.SetHeight(0_in);
+
+}
 void Robot::AutonomousInit() {
   autoTimer.Reset();
   autoTimer.Start();
@@ -385,7 +434,7 @@ void Robot::TeleopInit() {
 
   //Set current heading as target heading to avoid unwanted motion
   m_swerve.SetTargetHeading(m_swerve.GetHeading().Degrees());
-
+  
 }
 
 /*
@@ -396,6 +445,42 @@ void Robot::TeleopPeriodic() {
   //Reset Drive Pose
   if(driver.GetBackButtonPressed()){
     m_swerve.SetPose(frc::Pose2d(0_m, 0_m, frc::Rotation2d(0_deg)));
+  }
+
+  if(codriver.GetAButtonPressed()){
+    m_slide.SetPosition(0_in);
+  }
+  if(codriver.GetYButtonPressed()){
+    m_slide.SetPosition(18_in);
+  }
+
+  if(codriver.GetXButtonPressed()){
+    m_elevator.SetHeight(0_in);
+  }
+  if(codriver.GetBButtonPressed()){
+    m_elevator.SetHeight(12_in);
+  }
+
+  if(codriver.GetPOV()>-1){
+    switch(codriver.GetPOV()){
+      case 0: HighPos();break;
+      case 90: UpTuckPos();break;
+      case 180: GroundPos();break;
+      case 270: MidPos();break;
+      default: break;
+    }
+  }else{
+    if(codriver.GetRightBumperPressed()){
+      PickupPos();
+    }else{
+      if(codriver.GetBackButtonPressed()){
+        TuckPos();
+      }
+    }
+  }
+  if(codriver.GetLeftBumper()){
+    m_arm.SetSpeed(-codriver.GetLeftY());
+    m_elevator.SetSpeed( -codriver.GetRightY()/4.0);
   }
 
   Drive();

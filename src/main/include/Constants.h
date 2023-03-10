@@ -30,7 +30,8 @@ namespace constants{
 
   //ArmConstants the_armConstants;
   namespace armConstants{
-    constexpr double TurnGearRatio = 75.0;
+    constexpr double TurnGearRatio = 100.0;
+    constexpr double TicksPerDegree = TurnGearRatio*(2048.0/360.0);
 
     constexpr int MasterMotorID = 16;
     constexpr int SlaveMotorID = 17;
@@ -39,8 +40,9 @@ namespace constants{
   }
 
   namespace slideConstants{
-    constexpr double MotorGearRatio = 5.0;
-    constexpr double EncoderTicksPerInch = 600.0;
+    constexpr double MotorGearRatio = 9.0;
+    //Gear pitch diameter is 1.5" for 30tooth gear
+    constexpr double EncoderTicksPerInch = (MotorGearRatio *2048.0)/(std::numbers::pi*1.5);
     
     constexpr int MotorID = 21;
     constexpr int EncoderID = 11;
@@ -48,8 +50,8 @@ namespace constants{
   }
 
   namespace elevatorConstants{
-    constexpr double MotorGearRatio = 15.0;
-    constexpr double EncoderTicksPerInch = 600.0;
+    constexpr double MotorGearRatio = 5.0;
+    constexpr double EncoderTicksPerInch = (MotorGearRatio *2048.0);
     
     constexpr int MasterMotorID = 19;
     constexpr int SlaveMotorID = 20;

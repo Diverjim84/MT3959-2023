@@ -26,8 +26,10 @@ public:
     void configDevices();
 
     void SetSpeed(double rawMotorSpeed); //sets motors to % output motor control
+    void SetHeight(units::inch_t pos);
 
     units::degrees_per_second_t GetSpeed(); //sends the speed of the motors in deg/sec
+    units::inch_t GetHeight();
 
     void InitSendable(wpi::SendableBuilder& builder){};
     void SendData(LoggingLevel verbose); //sends LoggingLevel data to dashboard

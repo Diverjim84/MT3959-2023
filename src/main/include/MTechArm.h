@@ -15,7 +15,6 @@
 
 class Arm : public wpi::Sendable /*constructor*/{
 private:
-    bool m_angleOffset; //encoder offset, zeroes the value
     CANCoder m_encoder{constants::armConstants::EncoderID, constants::armConstants::CANBus}; //declares encoder
 
     TalonFX m_motor1{constants::armConstants::MasterMotorID, constants::armConstants::CANBus}; //declares primary motor
