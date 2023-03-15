@@ -10,6 +10,9 @@ Claw::Claw(){
 
 void Claw::Init(){
     //sets motors and encoders
+    m_motorRightIntake.RestoreFactoryDefaults();
+    m_motorLeftIntake.RestoreFactoryDefaults();
+    
     m_motorRightIntake.SetInverted(false);
     m_motorLeftIntake.SetInverted(!m_motorRightIntake.GetInverted());
 }
