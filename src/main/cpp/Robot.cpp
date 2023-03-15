@@ -62,7 +62,7 @@ void Robot::RobotPeriodic() {
   frc::SmartDashboard::PutNumber("Bot Pose Y", units::inch_t( bp.Y()).value());
   frc::SmartDashboard::PutNumber("Bot Pose Heading", bp.Rotation().Degrees().value());
 
-  //frc::SmartDashboard::PutNumber("Compressor Pressure (psi)", m_compressor.GetPressure().value());
+  frc::SmartDashboard::PutNumber("Compressor Pressure (psi)", m_compressor.GetPressure().value());
 
   m_slide.SendData(LoggingLevel::Everything);
   m_arm.SendData(LoggingLevel::Everything);
