@@ -13,8 +13,10 @@ void Claw::Init(){
     m_motorRightIntake.RestoreFactoryDefaults();
     m_motorLeftIntake.RestoreFactoryDefaults();
     
-    m_motorRightIntake.SetInverted(false);
-    m_motorLeftIntake.SetInverted(!m_motorRightIntake.GetInverted());
+
+    bool dir = false;
+    m_motorRightIntake.SetInverted(dir);
+    m_motorLeftIntake.SetInverted(!dir);
 }
 
 void Claw::SetIntakeSpeed(double Speed){
