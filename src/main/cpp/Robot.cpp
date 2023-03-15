@@ -474,6 +474,7 @@ void Robot::TeleopPeriodic() {
   //zero elevator
   if(codriver.GetStartButtonPressed()){
     m_elevator.SetSpeed(-.15);
+    m_slide.SetSpeed(-.15);
   }
 
   if(codriver.GetPOV()>-1){
