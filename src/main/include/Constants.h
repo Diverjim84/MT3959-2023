@@ -61,6 +61,14 @@ namespace constants{
 
   }
 
+  namespace clawConstants{
+    constexpr int LeftMotorID = 1;
+    constexpr int RightMotorID = 2;
+    constexpr int SolenoidID = 0;
+
+    constexpr double HoldSpeed = -0.15;
+  }
+
   namespace swerveConstants{
 
     constexpr int PigeonID = 32;

@@ -4,6 +4,10 @@
 // the WPILib BSD license file in the root directory of this project.
 #include "Claw.h"
 
+Claw::Claw(){
+    Init();
+}
+
 void Claw::Init(){
     //sets motors and encoders
     m_motorRightIntake.SetInverted(false);
@@ -17,11 +21,14 @@ void Claw::SetIntakeSpeed(double Speed){
 }
 
 void Claw::ClawOpen(){
-    m_clawPistion.Set(frc::DoubleSolenoid::Value::kForward);
+    m_clawPistion.Set(true);
 }
 
 void Claw::ClawClose(){
-    m_clawPistion.Set(frc::DoubleSolenoid::Value::kReverse);
+    m_clawPistion.Set(false);
+}
+void Claw::ClawToggle(){
+    m_clawPistion.Set(!m_clawPistion.Get());
 }
 
 void Claw::SendData(LoggingLevel verbose){

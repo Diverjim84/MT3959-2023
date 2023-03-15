@@ -33,6 +33,7 @@
 #include "MTechArm.h"
 #include "Elevator.h"
 #include "Slide.h"
+#include "Claw.h"
 #include "WaypointPoses.h"
 #include "AutoSelector.h"
 #include <units/pressure.h>
@@ -48,6 +49,7 @@ private:
   Slide m_slide{};
   Elevator m_elevator{};
   Arm m_arm{};
+  Claw m_claw{};
 
   frc::Compressor m_compressor{1, frc::PneumaticsModuleType::REVPH};
 
@@ -72,7 +74,8 @@ private:
   Drivetrain m_swerve{config};
   bool headingControl;
 
-  LimeLight ll;
+  LimeLight m_leftLL{"limelight-left"};
+  LimeLight m_rightLL{"limelight-right"};
   
 
   frc::Trajectory traj2Score1;

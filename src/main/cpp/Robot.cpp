@@ -5,8 +5,7 @@
 #include "Robot.h"
 
 
-Robot::Robot():
-  ll()
+Robot::Robot()
 {
 
 }
@@ -31,8 +30,10 @@ void Robot::RobotInit() {
   m_arm.Init();
   m_slide.Init();
   m_elevator.Init();
+  m_claw.ClawClose();
+  m_claw.SetIntakeSpeed(constants::clawConstants::HoldSpeed);
 
-  //m_compressor.EnableAnalog(110.0_psi, 115.0_psi);
+  m_compressor.EnableAnalog(110.0_psi, 115.0_psi);
 
 }
 
@@ -40,9 +41,9 @@ void Robot::UpdatePose(){
 
   m_swerve.UpdateOdometry();
   
-  if(ll.IsTargetVisible()){
+  if(m_leftLL.IsTargetVisible()){
     if((units::math::abs(m_swerve.GetChassisSpeeds().vx)+units::math::abs(m_swerve.GetChassisSpeeds().vy)) < .15_mps){
-      //m_swerve.SetPose(ll.GetRobotPose());
+      //m_swerve.SetPose(m_leftLL.GetRobotPose());
     } 
   }
 
@@ -53,7 +54,8 @@ void Robot::UpdatePose(){
 void Robot::RobotPeriodic() {
   
   UpdatePose();
-  ll.SendData(LoggingLevel::Basic);
+  m_leftLL.SendData("Left LL", LoggingLevel::Basic);
+  m_rightLL.SendData("Right LL", LoggingLevel::Basic);
   
   frc::Pose2d bp = m_swerve.GetPose();
   frc::SmartDashboard::PutNumber("Bot Pose X", units::inch_t( bp.X()).value());
@@ -73,7 +75,7 @@ void Robot::RobotPeriodic() {
 void Robot::Gen2PieceCorridor(){
 
   //set Starting Pose
-  frc::Pose2d x = ll.GetRobotPose();
+  frc::Pose2d x = m_leftLL.GetRobotPose();
   m_swerve.SetPose(x); //Set the robot to this pose 
 
   
@@ -211,7 +213,7 @@ void Robot::Run2PieceCorridor(){
 
 void Robot::GenSimpleSwitch(){
   //set Starting Pose
-  frc::Pose2d x = ll.GetRobotPose();
+  frc::Pose2d x = m_leftLL.GetRobotPose();
   m_swerve.SetPose(x); //Set the robot to this pose 
 
 
@@ -355,9 +357,9 @@ void Robot::GenTraj(){
 }
 
 void Robot::TrackToGoal(frc::Pose2d goal){
-  if(ll.IsTargetVisible()){
+  if(m_leftLL.IsTargetVisible()){
     if((units::math::abs(m_swerve.GetChassisSpeeds().vx)+units::math::abs(m_swerve.GetChassisSpeeds().vy)) < .05_mps){
-      m_swerve.SetPose(ll.GetRobotPose());
+      m_swerve.SetPose(m_leftLL.GetRobotPose());
     }
 
     m_swerve.DrivePos(goal.X(), goal.Y(), goal.Rotation().Degrees());
@@ -370,21 +372,21 @@ void Robot::TrackToGoal(frc::Pose2d goal){
 void Robot::PickupPos(){
   m_arm.SetAngle(60_deg);
   m_slide.SetPosition(0_in);
-  m_elevator.SetHeight(3_in);
+  m_elevator.SetHeight(0_in);
 
 }
 
 void Robot::GroundPos(){
   m_arm.SetAngle(-90_deg);
   m_slide.SetPosition(0_in);
-  m_elevator.SetHeight(3_in);
+  m_elevator.SetHeight(0_in);
 
 }
 
 void Robot::MidPos(){
   m_arm.SetAngle(40_deg);
   m_slide.SetPosition(0_in);
-  m_elevator.SetHeight(3_in);
+  m_elevator.SetHeight(0_in);
 }
 
 void Robot::HighPos(){
@@ -396,7 +398,7 @@ void Robot::HighPos(){
 void Robot::TuckPos(){
   m_arm.SetAngle(-130_deg);
   m_slide.SetPosition(0_in);
-  m_elevator.SetHeight(3_in);
+  m_elevator.SetHeight(0_in);
 
 }
 
@@ -447,18 +449,31 @@ void Robot::TeleopPeriodic() {
     m_swerve.SetPose(frc::Pose2d(0_m, 0_m, frc::Rotation2d(0_deg)));
   }
 
-  if(codriver.GetAButtonPressed()){
-    m_slide.SetPosition(0_in);
+
+  if(codriver.GetBButtonPressed()){
+    m_claw.ClawClose();
+  }else{
+    if(codriver.GetXButtonPressed()){
+      m_claw.ClawOpen();
+    }
   }
-  if(codriver.GetYButtonPressed()){
-    m_slide.SetPosition(18_in);
+  if(codriver.GetAButtonPressed()){
+    m_claw.ClawToggle();
+  }
+  if(codriver.GetRightTriggerAxis()>0.0){
+    m_claw.SetIntakeSpeed(codriver.GetRightTriggerAxis()*.3);
+  }else{
+    if(codriver.GetLeftTriggerAxis()>0.0){
+      m_claw.SetIntakeSpeed(-codriver.GetLeftTriggerAxis()*.3);
+    }else{
+      m_claw.SetIntakeSpeed(constants::clawConstants::HoldSpeed);
+    }
   }
 
-  if(codriver.GetXButtonPressed()){
-    m_elevator.SetHeight(0_in);
-  }
-  if(codriver.GetBButtonPressed()){
-    m_elevator.SetHeight(12_in);
+  
+  //zero elevator
+  if(codriver.GetStartButtonPressed()){
+    m_elevator.SetSpeed(-.15);
   }
 
   if(codriver.GetPOV()>-1){
@@ -482,6 +497,7 @@ void Robot::TeleopPeriodic() {
     m_arm.SetSpeed(-codriver.GetLeftY());
     m_elevator.SetSpeed( -codriver.GetRightY()/4.0);
   }
+
 
   Drive();
 }

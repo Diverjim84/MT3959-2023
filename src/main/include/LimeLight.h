@@ -49,11 +49,11 @@ public:
 class LimeLight {
  
  
- std::shared_ptr<nt::NetworkTable> m_limelight = nt::NetworkTableInstance::GetDefault().GetTable("limelight");
-
+  std::shared_ptr<nt::NetworkTable> m_limelight;
+  
 
 public:
-  LimeLight();
+  LimeLight(std::string name);
 
 
 
@@ -61,7 +61,7 @@ public:
 
   frc::Pose2d GetRobotPose();
 
-  void SendData(LoggingLevel verbose);
+  void SendData(std::string name, LoggingLevel verbose);
 
   units::inch_t GetReflectiveTargetRange(double targetHight);
 

@@ -4,8 +4,8 @@
 
 #include "LimeLight.h"
 
-LimeLight::LimeLight() {
-
+LimeLight::LimeLight(std::string name) {
+   m_limelight = nt::NetworkTableInstance::GetDefault().GetTable(name);
 
 }
 
@@ -72,7 +72,7 @@ bool LimeLight::IsTargetVisible(){
     //*/return 0_in;
   }
 
-  void LimeLight::SendData(LoggingLevel verbose){
+  void LimeLight::SendData(std::string name, LoggingLevel verbose){
     switch(verbose){
         case LoggingLevel::Everything: //everything that is not in the cases below it
                                     //continue
@@ -81,10 +81,10 @@ bool LimeLight::IsTargetVisible(){
         case LoggingLevel::Basic: //minimal useful data to driver
               {
                 frc::Pose2d p = GetRobotPose();
-                frc::SmartDashboard::PutBoolean("Limelight visible", IsTargetVisible());
-                frc::SmartDashboard::PutNumber("Limelight pose x", units::inch_t( p.X()).value());
-                frc::SmartDashboard::PutNumber("Limelight pose y", units::inch_t( p.Y()).value());
-                frc::SmartDashboard::PutNumber("Limelight pose heading", p.Rotation().Degrees().value());
+                frc::SmartDashboard::PutBoolean(name + " visible", IsTargetVisible());
+                frc::SmartDashboard::PutNumber(name + " pose x", units::inch_t( p.X()).value());
+                frc::SmartDashboard::PutNumber(name + " pose y", units::inch_t( p.Y()).value());
+                frc::SmartDashboard::PutNumber(name + " pose heading", p.Rotation().Degrees().value());
                 
               }
                                     //continue
