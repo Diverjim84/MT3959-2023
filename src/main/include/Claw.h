@@ -16,7 +16,7 @@ class Claw {
 
     rev::CANSparkMax m_motorRightIntake{constants::clawConstants::RightMotorID, rev::CANSparkMaxLowLevel::MotorType::kBrushless}; //declares intake motor
     rev::CANSparkMax m_motorLeftIntake{constants::clawConstants::LeftMotorID, rev::CANSparkMaxLowLevel::MotorType::kBrushless}; //declares intake motor
-    frc::Solenoid m_clawPistion{frc::PneumaticsModuleType::CTREPCM,constants::clawConstants::SolenoidID}; //swap 1 and 0 if pistion works in reverse
+    frc::Solenoid m_clawPistion{1,frc::PneumaticsModuleType::REVPH,constants::clawConstants::SolenoidID}; //swap 1 and 0 if pistion works in reverse
 
 public:
 

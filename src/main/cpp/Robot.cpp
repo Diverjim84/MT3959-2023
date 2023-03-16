@@ -33,7 +33,7 @@ void Robot::RobotInit() {
   m_claw.ClawClose();
   m_claw.SetIntakeSpeed(constants::clawConstants::HoldSpeed);
 
-  m_compressor.EnableAnalog(110.0_psi, 115.0_psi);
+  m_compressor.EnableAnalog(115.0_psi, 120.0_psi);
 
 }
 
@@ -450,16 +450,11 @@ void Robot::TeleopPeriodic() {
   }
 
 
-  if(codriver.GetBButtonPressed()){
-    m_claw.ClawClose();
-  }else{
-    if(codriver.GetXButtonPressed()){
-      m_claw.ClawOpen();
-    }
-  }
+  
   if(codriver.GetAButtonPressed()){
     m_claw.ClawToggle();
   }
+
   if(codriver.GetRightTriggerAxis()>0.0){
     m_claw.SetIntakeSpeed(codriver.GetRightTriggerAxis()*.3);
   }else{
@@ -481,16 +476,16 @@ void Robot::TeleopPeriodic() {
     switch(codriver.GetPOV()){
       case 0: HighPos();break;
       case 90: UpTuckPos();break;
-      case 180: GroundPos();break;
+      case 180: TuckPos();break;
       case 270: MidPos();break;
       default: break;
     }
   }else{
     if(codriver.GetRightBumperPressed()){
-      PickupPos();
+        GroundPos();
     }else{
       if(codriver.GetBackButtonPressed()){
-        TuckPos();
+        PickupPos();
       }
     }
   }
@@ -541,7 +536,7 @@ void Robot::Drive()
 
   //Scale Speed
   units::scalar_t scale = 1.0-driver.GetRightTriggerAxis()*.9;
-  scale = scale;
+  scale = scale*.8;
   
   //Set control mode
   if(driver.GetAButtonPressed()){

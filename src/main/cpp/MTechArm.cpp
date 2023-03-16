@@ -37,7 +37,7 @@ void Arm::configDevices(){
     config.slot0.kP = .01;
     config.slot0.kF = .05;
 
-    double degreesPerSec = 100.0; 
+    double degreesPerSec = 200.0; 
 
     config.motionCruiseVelocity = (degreesPerSec / 10.0) * constants::armConstants::TicksPerDegree;
     config.motionAcceleration = 4.0*config.motionCruiseVelocity; // 1 sec for arm to achieve cruising velocity

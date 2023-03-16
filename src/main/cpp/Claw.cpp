@@ -14,7 +14,7 @@ void Claw::Init(){
     m_motorLeftIntake.RestoreFactoryDefaults();
     
 
-    bool dir = false;
+    bool dir = true;
     m_motorRightIntake.SetInverted(dir);
     m_motorLeftIntake.SetInverted(!dir);
 }
