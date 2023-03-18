@@ -93,22 +93,34 @@ private:
   enum AutoRoutine {
       k2PieceCorridor,  
       k2PieceCorridorSwitch,
-      kSimpleSwitch 
+      kSimpleSwitch,
+      kSpeedBump,
+      kTest 
   } m_autoSelected;
 
   frc::SendableChooser<AutoRoutine> m_autoChooser;
   const std::string a_2PieceCorridor = "2 Piece Corridor";
   const std::string a_2PieceCorridorSwitch = "2 Piece Corridor and Switch";
   const std::string a_SimpleSwitch = "1 Piece and Switch";
+  const std::string a_SpeedBump = "2 Piece Bump";
+  const std::string a_Test = "Top Secret";
   
 
   void Drive();
   void UpdatePose();
+  bool FuseLL();
+  bool FuseLLNoHeading();
 
   void Gen2PieceCorridor();
   void Run2PieceCorridor();
   void GenSimpleSwitch();
   void RunSimpleSwitch();
+  void GenSpeedBump();
+  void RunSpeedBump();
+  void GenTest();
+  void RunTest();
+
+
   void GenTraj();
 
   void TrackToGoal(frc::Pose2d goal);

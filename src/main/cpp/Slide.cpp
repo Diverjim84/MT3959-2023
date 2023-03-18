@@ -36,12 +36,12 @@ void Slide::configDevices(){
     config.slot0.kF = .05;
     config.slot0.allowableClosedloopError = 50.0;
 
-    double inchesPerSec = 24.0; 
+    double inchesPerSec = 20.0; 
 
 
     config.motionCruiseVelocity = (constants::slideConstants::EncoderTicksPerInch*inchesPerSec)/10.0;
-    config.motionAcceleration = 6.0*config.motionCruiseVelocity; // 1/6 sec for arm to achieve cruising velocity
-    config.motionCurveStrength = 6;
+    config.motionAcceleration = 5.0*config.motionCruiseVelocity; // 1/6 sec for arm to achieve cruising velocity
+    config.motionCurveStrength = 7;
 
     m_motor.ConfigAllSettings(config);
     m_motor.SetInverted(TalonFXInvertType::Clockwise);
@@ -58,6 +58,7 @@ void Slide::configDevices(){
 
 void Slide::SetPosition(units::inch_t position){
     //sets position
+    m_target = position;
     m_motor.Set(ControlMode::MotionMagic, constants::slideConstants::EncoderTicksPerInch*position.value());
 }
 
@@ -70,6 +71,7 @@ units::inch_t Slide::GetPosition(){
     return units::inch_t(m_motor.GetSelectedSensorPosition()/constants::slideConstants::EncoderTicksPerInch);
     //returns position
 }
+
 
 void Slide::SendData(LoggingLevel verbose){
     //sends data to dashboard with the enum LoggingLevel

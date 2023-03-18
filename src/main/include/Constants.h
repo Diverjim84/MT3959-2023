@@ -67,6 +67,7 @@ namespace constants{
     constexpr int SolenoidID = 0;
 
     constexpr double HoldSpeed = -0.03;
+    constexpr double FeedSpeed = -0.2;
   }
 
   namespace swerveConstants{
