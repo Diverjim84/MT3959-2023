@@ -144,12 +144,7 @@ void Robot::RobotPeriodic() {
   m_arm.SendData(LoggingLevel::Everything);
   m_elevator.SendData(LoggingLevel::Everything);
 
-  //m_swerve.SendData();
-  if(m_slide.GetPosition() > 6_in || m_slide.GetTargetPos() > 6_in){
-    m_swerve.SetRotationGain(.4);
-  }else{
-    m_swerve.SetRotationGain(.8);
-  }
+  
 
 }
 
@@ -979,6 +974,13 @@ void Robot::TeleopInit() {
 */
 void Robot::TeleopPeriodic() {
   
+  //m_swerve.SendData();
+  if(m_slide.GetPosition() > 6_in || m_slide.GetTargetPos() > 6_in){
+    m_swerve.SetRotationGain(.4);
+  }else{
+    m_swerve.SetRotationGain(.8);
+  }
+
   //Reset Drive Pose
   if(driver.GetBackButtonPressed()){
     m_swerve.SetPose(frc::Pose2d(0_m, 0_m, frc::Rotation2d(0_deg)));
@@ -1034,7 +1036,7 @@ void Robot::TeleopPeriodic() {
 
 void Robot::DisabledInit() {}
 void Robot::DisabledPeriodic() {
-  FuseLL();
+  //FuseLL();
 }
 
 void Robot::TestInit() {}
