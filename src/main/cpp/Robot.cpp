@@ -639,7 +639,7 @@ void Robot::RunSpeedBump(){
                 autoTimer.Reset();
             }
             break;
-    case 3: //autoState++; //Start timer for indexing into trajectory
+    case 3: autoState++; //Start timer for indexing into trajectory
             autoTimer.Reset(); //reset timer
             break;
             //intensionally fall into next case statement
@@ -651,7 +651,8 @@ void Robot::RunSpeedBump(){
             }
             if(m_swerve.GetPose().X() > waypoints::BlueSwitchFar.X() && m_swerve.GetPose().X() < waypoints::RedSwitchFar.X()){
               if(frc::DriverStation::GetAlliance()==frc::DriverStation::Alliance::kBlue)
-              {heading = -20_deg;}else{heading = -159.9_deg;} //Point toward next piece
+              {heading = 0_deg;}else{heading = -179.9_deg;} //Point toward next piece - deg changed to be easier for reorientation after auto
+              //{heading = -20_deg;}else{heading = -159.9_deg;} //Point toward next piece
             }else{
               if(frc::DriverStation::GetAlliance()==frc::DriverStation::Alliance::kBlue)
               {heading = 179.9_deg;}else{heading = 0_deg;} //Point toward next piece
