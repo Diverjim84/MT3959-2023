@@ -622,7 +622,7 @@ void Robot::RunSpeedBump(){
             //intensionally fall into next case statement
     case 1: if(frc::DriverStation::GetAlliance()==frc::DriverStation::Alliance::kBlue)
             {heading = 179.9_deg;}else{heading = 0_deg;}
-            if(autoTimer.Get()>(traj2Score1.TotalTime())){
+            if(autoTimer.Get()>1_s){
                 autoState++;
                 autoTimer.Reset();
             }
