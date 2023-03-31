@@ -652,6 +652,10 @@ void Robot::RunSpeedBump(){
             if(m_swerve.GetPose().X() > waypoints::BlueSwitchFar.X() && m_swerve.GetPose().X() < waypoints::RedSwitchFar.X()){
               if(frc::DriverStation::GetAlliance()==frc::DriverStation::Alliance::kBlue)
               {heading = -20_deg;}else{heading = -159.9_deg;} //Point toward next piece
+            }else{
+              if(frc::DriverStation::GetAlliance()==frc::DriverStation::Alliance::kBlue)
+              {heading = 179.9_deg;}else{heading = 0_deg;} //Point toward next piece
+
             }
             m_swerve.DrivePos(p.X(), p.Y(), heading);
             if(autoTimer.Get()>(traj2Piece1.TotalTime())){
