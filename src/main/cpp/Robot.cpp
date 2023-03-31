@@ -139,7 +139,8 @@ void Robot::RobotPeriodic() {
   frc::SmartDashboard::PutNumber("Bot Pose Heading", bp.Rotation().Degrees().value());
 
   frc::SmartDashboard::PutNumber("Compressor Pressure (psi)", m_compressor.GetPressure().value());
-
+  
+  m_swerve.SendData();
   m_slide.SendData(LoggingLevel::Everything);
   m_arm.SendData(LoggingLevel::Everything);
   m_elevator.SendData(LoggingLevel::Everything);
@@ -886,7 +887,7 @@ void Robot::PickupPos(){
   std::this_thread::sleep_for(std::chrono::milliseconds(500));
   m_arm.SetAngle(50_deg);
   m_slide.SetPosition(0_in);
-  m_elevator.SetHeight(0_in);
+  m_elevator.SetHeight(1_in);
 
 }
 
@@ -894,7 +895,7 @@ void Robot::GroundPos(){
   std::this_thread::sleep_for(std::chrono::milliseconds(500)); 
   m_arm.SetAngle(-90_deg);
   m_slide.SetPosition(0_in);
-  m_elevator.SetHeight(4_in);
+  m_elevator.SetHeight(0_in);
 
 }
 
@@ -902,7 +903,7 @@ void Robot::MidPos(){
   std::this_thread::sleep_for(std::chrono::milliseconds(500)); 
   m_arm.SetAngle(40_deg);
   m_slide.SetPosition(0_in);
-  m_elevator.SetHeight(0_in);
+  m_elevator.SetHeight(1.5_in);
 }
 
 void Robot::HighPos(){
@@ -916,7 +917,7 @@ void Robot::TuckPos(){
   std::this_thread::sleep_for(std::chrono::milliseconds(500)); 
   m_arm.SetAngle(-130_deg);
   m_slide.SetPosition(0_in);
-  m_elevator.SetHeight(0_in);
+  m_elevator.SetHeight(4_in);
 
 }
 
