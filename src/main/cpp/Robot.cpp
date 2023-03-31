@@ -139,8 +139,8 @@ void Robot::RobotPeriodic() {
   frc::SmartDashboard::PutNumber("Bot Pose Heading", bp.Rotation().Degrees().value());
 
   frc::SmartDashboard::PutNumber("Compressor Pressure (psi)", m_compressor.GetPressure().value());
-  
-  m_swerve.SendData();
+
+  //m_swerve.SendData();
   m_slide.SendData(LoggingLevel::Everything);
   m_arm.SendData(LoggingLevel::Everything);
   m_elevator.SendData(LoggingLevel::Everything);
@@ -641,6 +641,7 @@ void Robot::RunSpeedBump(){
             break;
     case 3: //autoState++; //Start timer for indexing into trajectory
             autoTimer.Reset(); //reset timer
+            break;
             //intensionally fall into next case statement
     case 4: p = traj2Piece1.Sample(autoTimer.Get()).pose;
             if(m_swerve.GetPose().X() > waypoints::BlueBumpFar.X() && m_swerve.GetPose().X() < waypoints::RedBumpFar.X()){
