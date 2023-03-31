@@ -622,7 +622,7 @@ void Robot::RunSpeedBump(){
             //intensionally fall into next case statement
     case 1: if(frc::DriverStation::GetAlliance()==frc::DriverStation::Alliance::kBlue)
             {heading = 179.9_deg;}else{heading = 0_deg;}
-            if(autoTimer.Get()>1_s){
+            if(autoTimer.Get()>3_s){
                 autoState++;
                 autoTimer.Reset();
             }
@@ -648,10 +648,6 @@ void Robot::RunSpeedBump(){
                 GroundPos();
                 m_claw.ClawClose();
                 m_claw.SetIntakeSpeed(constants::clawConstants::FeedSpeed);
-            }
-            if(m_swerve.GetPose().X() > waypoints::BlueBumpNear.X() && m_swerve.GetPose().X() < waypoints::RedBumpNear.X()){
-              if(frc::DriverStation::GetAlliance()==frc::DriverStation::Alliance::kBlue)
-              {heading = -90_deg;}else{heading = 90_deg;} //Point toward next piece
             }
             if(m_swerve.GetPose().X() > waypoints::BlueSwitch.X() && m_swerve.GetPose().X() < waypoints::RedSwitch.X()){
               if(frc::DriverStation::GetAlliance()==frc::DriverStation::Alliance::kBlue)
