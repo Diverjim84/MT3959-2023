@@ -620,19 +620,17 @@ void Robot::RunSpeedBump(){
             m_slide.SetPosition(0_in);
             MidPos();
             //intensionally fall into next case statement
-    case 1: if(frc::DriverStation::GetAlliance()==frc::DriverStation::Alliance::kBlue)
-            {heading = 179.9_deg;}else{heading = 0_deg;}
-            if(autoTimer.Get()>3_s){
+    case 1: if(autoTimer.Get()>3_s){
                 autoState++;
                 autoTimer.Reset();
             }
             break;
     case 2: //Place Piece
             m_swerve.DriveXY(0_mps, 0_mps);
-            if(autoTimer.Get()>1_s){
+            if(autoTimer.Get()>0_s){
               m_claw.ClawOpen();
             }
-            if(autoTimer.Get()>1.2_s){
+            if(autoTimer.Get()>0.5_s){
                 UpTuckPos();
             }
             if(autoTimer.Get()>2_s){
@@ -640,7 +638,7 @@ void Robot::RunSpeedBump(){
                 autoTimer.Reset();
             }
             break;
-    case 3: autoState++; //Start timer for indexing into trajectory
+    case 3: //autoState++; //Start timer for indexing into trajectory
             autoTimer.Reset(); //reset timer
             //intensionally fall into next case statement
     case 4: p = traj2Piece1.Sample(autoTimer.Get()).pose;
@@ -649,7 +647,7 @@ void Robot::RunSpeedBump(){
                 m_claw.ClawClose();
                 m_claw.SetIntakeSpeed(constants::clawConstants::FeedSpeed);
             }
-            if(m_swerve.GetPose().X() > waypoints::BlueSwitch.X() && m_swerve.GetPose().X() < waypoints::RedSwitch.X()){
+            if(m_swerve.GetPose().X() > waypoints::BlueSwitchFar.X() && m_swerve.GetPose().X() < waypoints::RedSwitchFar.X()){
               if(frc::DriverStation::GetAlliance()==frc::DriverStation::Alliance::kBlue)
               {heading = -20_deg;}else{heading = -159.9_deg;} //Point toward next piece
             }
@@ -937,7 +935,11 @@ void Robot::AutonomousInit() {
   m_slide.SetPosition(0_in);
   m_claw.ClawClose();
   m_swerve.SetTargetHeading(m_swerve.GetHeading().Degrees());
-  
+  units::degree_t heading;
+  if(frc::DriverStation::GetAlliance()==frc::DriverStation::Alliance::kBlue)
+    {heading = 179.9_deg;}else{heading = 0_deg;}
+  m_swerve.SetHeading(heading);
+  m_swerve.SetTargetHeading(heading);
   GenTraj();
 
 }
