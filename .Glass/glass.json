@@ -4,6 +4,12 @@
       "open": false
     },
     "transitory": {
+      "SmartDashboard": {
+        "Auto Modes": {
+          "open": true
+        },
+        "open": true
+      },
       "limelight": {
         "open": true
       }

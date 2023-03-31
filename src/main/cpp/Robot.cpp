@@ -125,7 +125,7 @@ bool Robot::FuseLLNoHeading(){
     return true;
   }
 }
-//*/
+
 
 void Robot::RobotPeriodic() {
   
@@ -183,7 +183,7 @@ void Robot::Gen2PieceCorridor(){
     //create traj from score position 1 to pickup position 1
     traj2Piece1 = frc::TrajectoryGenerator::GenerateTrajectory(waypoints::Blue6Right, 
                                                           wp2Piece1, 
-                                                          frc::Pose2d(waypoints::BluePiece1, frc::Rotation2d(0_deg)), 
+                                                          frc::Pose2d(waypoints::BluePiece1.X(), waypoints::BluePiece1.Y()-12_in, frc::Rotation2d(0_deg)), 
                                                           c.config);
     
     //create waypoint list from piece pickup position to score position
@@ -375,7 +375,7 @@ void Robot::GenSimpleSwitch(){
     //create traj from score position 1 to pickup position 1
     traj2Piece1 = frc::TrajectoryGenerator::GenerateTrajectory(waypoints::Blue7Right, 
                                                           wp2Piece1, 
-                                                          frc::Pose2d(waypoints::BluePiece3, frc::Rotation2d(0_deg)), 
+                                                          frc::Pose2d(waypoints::BluePiece3.X(), waypoints::BluePiece3.Y()-12_in, frc::Rotation2d(0_deg)), 
                                                           c.config);
     
     //create waypoint list from piece pickup position to score position
@@ -556,7 +556,7 @@ void Robot::GenSpeedBump(){
     //create traj from score position 1 to pickup position 1
     traj2Piece1 = frc::TrajectoryGenerator::GenerateTrajectory(waypoints::Blue8Left, 
                                                           wp2Piece1, 
-                                                          frc::Pose2d(waypoints::BluePiece4, frc::Rotation2d(0_deg)), 
+                                                          frc::Pose2d(waypoints::BluePiece4.X(), waypoints::BluePiece4.Y()-12_in, frc::Rotation2d(0_deg)), 
                                                           c.config);
     
     //create waypoint list from piece pickup position to score position
@@ -618,17 +618,13 @@ void Robot::RunSpeedBump(){
     case 0: autoState++; //Start timer for indexing into trajectory
             autoTimer.Reset(); //reset timer
             m_slide.SetPosition(0_in);
-            //MidPos();
+            MidPos();
             //intensionally fall into next case statement
-    case 1: p = traj2Score1.Sample(autoTimer.Get()).pose;
-            if(frc::DriverStation::GetAlliance()==frc::DriverStation::Alliance::kBlue)
-            {heading = 179.9_deg;}else{heading = 0_deg;} 
-            m_swerve.DrivePos(p.X(), p.Y(), heading);
+    case 1: if(frc::DriverStation::GetAlliance()==frc::DriverStation::Alliance::kBlue)
+            {heading = 179.9_deg;}else{heading = 0_deg;}
             if(autoTimer.Get()>(traj2Score1.TotalTime())){
                 autoState++;
                 autoTimer.Reset();
-                m_swerve.DriveXY(0_mps, 0_mps);
-                MidPos();
             }
             break;
     case 2: //Place Piece
@@ -638,7 +634,8 @@ void Robot::RunSpeedBump(){
             }
             if(autoTimer.Get()>1.2_s){
                 UpTuckPos();
-            
+            }
+            if(autoTimer.Get()>2_s){
                 autoState++;
                 autoTimer.Reset();
             }
@@ -672,7 +669,7 @@ void Robot::RunSpeedBump(){
             if(autoTimer.Get()>.5_s){
                 m_claw.SetIntakeSpeed(constants::clawConstants::HoldSpeed);
                 UpTuckPos();
-                autoState++;
+                //autoState++;
                 autoTimer.Reset();
             }
             break;
@@ -892,6 +889,7 @@ void Robot::TrackToGoal(frc::Pose2d goal){
 }
 
 void Robot::PickupPos(){
+  std::this_thread::sleep_for(std::chrono::milliseconds(500));
   m_arm.SetAngle(50_deg);
   m_slide.SetPosition(0_in);
   m_elevator.SetHeight(0_in);
@@ -899,25 +897,29 @@ void Robot::PickupPos(){
 }
 
 void Robot::GroundPos(){
+  std::this_thread::sleep_for(std::chrono::milliseconds(500)); 
   m_arm.SetAngle(-90_deg);
   m_slide.SetPosition(0_in);
-  m_elevator.SetHeight(0_in);
+  m_elevator.SetHeight(4_in);
 
 }
 
 void Robot::MidPos(){
+  std::this_thread::sleep_for(std::chrono::milliseconds(500)); 
   m_arm.SetAngle(40_deg);
   m_slide.SetPosition(0_in);
   m_elevator.SetHeight(0_in);
 }
 
 void Robot::HighPos(){
+  std::this_thread::sleep_for(std::chrono::milliseconds(500)); 
   m_arm.SetAngle(25_deg);
   m_slide.SetPosition(14_in);
   m_elevator.SetHeight(19_in);
 }
 
 void Robot::TuckPos(){
+  std::this_thread::sleep_for(std::chrono::milliseconds(500)); 
   m_arm.SetAngle(-130_deg);
   m_slide.SetPosition(0_in);
   m_elevator.SetHeight(0_in);
@@ -925,6 +927,7 @@ void Robot::TuckPos(){
 }
 
 void Robot::UpTuckPos(){
+  std::this_thread::sleep_for(std::chrono::milliseconds(500)); 
   m_arm.SetAngle(130_deg);
   m_slide.SetPosition(0_in);
   m_elevator.SetHeight(0_in);
@@ -990,7 +993,11 @@ void Robot::TeleopPeriodic() {
   
   if(codriver.GetAButton()){
     m_claw.ClawOpen();
-  }else{
+  }/*else{
+    m_claw.ClawClose();
+  }
+*/
+  if(codriver.GetBButton()){
     m_claw.ClawClose();
   }
 
