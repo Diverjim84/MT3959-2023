@@ -114,10 +114,10 @@ constexpr frc::Pose2d Blue6Left{ BlueTapeX + TapeOffset  + constants::swerveCons
                         };
     
 
-constexpr frc::Translation2d BlueCorridorNear{ 2.2_m, 4.7_m}; //waypoing near scoring zone for the flat corridor to game pieces
-constexpr frc::Translation2d BlueCorridorFar{  5.6_m, 4.7_m}; //waypoing near game pieces for the flat corridor to game pieces
-constexpr frc::Translation2d BlueBumpNear{ 2.2_m, 0.75_m};     //waypoing near scoring zone for the Speed Bump to game pieces
-constexpr frc::Translation2d BlueBumpFar{  5.6_m, 0.75_m};     //waypoing near game pieces for the Speed Bump to game pieces
+constexpr frc::Translation2d BlueCorridorNear{ BlueTapeX + 50_in, 195_in}; //waypoing near scoring zone for the flat corridor to game pieces
+constexpr frc::Translation2d BlueCorridorFar{  220_in, 195_in}; //waypoing near game pieces for the flat corridor to game pieces
+constexpr frc::Translation2d BlueBumpNear{ BlueTapeX + 40_in, 30_in};     //waypoing near scoring zone for the Speed Bump to game pieces
+constexpr frc::Translation2d BlueBumpFar{  220_in, 30_in};     //waypoing near game pieces for the Speed Bump to game pieces
 
 constexpr frc::Translation2d BlueSwitchNear{ BlueTapeX + 30_in, 107.39_in};     //waypoing near alliance wall for switch
 constexpr frc::Translation2d BlueSwitch{     BlueTapeX + 96.75_in - 2_in, 107.39_in}; //Center of switch
@@ -128,10 +128,10 @@ constexpr frc::Translation2d BluePiece2{ BlueTapeX + 224_in, 132.19_in};
 constexpr frc::Translation2d BluePiece3{ BlueTapeX + 224_in,  84.19_in};
 constexpr frc::Translation2d BluePiece4{ BlueTapeX + 224_in,  36.19_in};  //nearest to wall
 
-constexpr frc::Translation2d RedCorridorNear{ 14.3_m, 4.7_m}; //waypoing near scoring zone for the flat corridor to game pieces
-constexpr frc::Translation2d RedCorridorFar{  11_m, 4.7_m};   //waypoing near game pieces for the flat corridor to game pieces
-constexpr frc::Translation2d RedBumpNear{ 14.3_m, 0.75_m};    //waypoing near scoring zone for the Speed Bump to game pieces
-constexpr frc::Translation2d RedBumpFar{  11_m, 0.75_m};      //waypoing near game pieces for the Speed Bump to game pieces
+constexpr frc::Translation2d RedCorridorNear{ RedTapeX - 40_in, 185_in}; //waypoing near scoring zone for the flat corridor to game pieces
+constexpr frc::Translation2d RedCorridorFar{  433_in, 185_in};   //waypoing near game pieces for the flat corridor to game pieces
+constexpr frc::Translation2d RedBumpNear{ RedTapeX - 40_in, 30_in};    //waypoing near scoring zone for the Speed Bump to game pieces
+constexpr frc::Translation2d RedBumpFar{  433_in, 30_in};      //waypoing near game pieces for the Speed Bump to game pieces
     
 constexpr frc::Translation2d RedSwitchNear{ RedTapeX - 30_in, 107.39_in};     //waypoing near alliance wall for switch
 constexpr frc::Translation2d RedSwitch{     RedTapeX - 96.75_in, 107.39_in}; //Center of switch
@@ -147,7 +147,7 @@ class WaypointPoses{
   public:
     WaypointPoses(){
       //Bottom Left, Top Right, speed limit
-      frc::RectangularRegionConstraint slowRegionRedSwitch{frc::Translation2d{452_in, 59_in},
+      frc::RectangularRegionConstraint slowRegionRedSwitch{frc::Translation2d{472_in, 59_in},
                                                   frc::Translation2d{537_in, 155_in},
                                                   frc::MaxVelocityConstraint{.75_mps}};
 
@@ -156,7 +156,7 @@ class WaypointPoses{
                                                   frc::MaxVelocityConstraint{.75_mps}};
 
       frc::RectangularRegionConstraint slowRegionBlueSwitch{frc::Translation2d{113_in, 59_in},
-                                                  frc::Translation2d{200_in, 155_in},
+                                                  frc::Translation2d{220_in, 155_in},
                                                   frc::MaxVelocityConstraint{.75_mps}};
 
       frc::RectangularRegionConstraint slowRegionBlueBump{frc::Translation2d{145_in, 0_in},
@@ -169,7 +169,7 @@ class WaypointPoses{
       config.AddConstraint(slowRegionBlueBump);
     }
     //configure traj with speed and acceleration 
-    frc::TrajectoryConfig config{ constants::swerveConstants::MaxSpeed*.35, 
+    frc::TrajectoryConfig config{ constants::swerveConstants::MaxSpeed*.5, 
                                   constants::swerveConstants::MaxAcceleration*.5};
     
     

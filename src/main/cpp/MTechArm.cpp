@@ -57,6 +57,12 @@ void Arm::configDevices(){
 
 void Arm::SetAngle(units::degree_t goal){
     
+    if(goal>130_deg){
+        goal = 130_deg;
+    }
+    if(goal<-135_deg){
+        goal = -135_deg;
+    }
     double turnTarget = goal.value()*constants::armConstants::TicksPerDegree; //how many ticks away the goal is
     
     double rads = units::radian_t(goal).value();

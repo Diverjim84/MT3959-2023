@@ -58,6 +58,12 @@ void Slide::configDevices(){
 
 void Slide::SetPosition(units::inch_t position){
     //sets position
+    if(position<0_in){
+        position = 0_in;
+    }
+    if(position>18_in){
+        position = 18_in;
+    }
     m_target = position;
     m_motor.Set(ControlMode::MotionMagic, constants::slideConstants::EncoderTicksPerInch*position.value());
 }
