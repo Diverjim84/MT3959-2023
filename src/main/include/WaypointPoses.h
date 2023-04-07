@@ -149,7 +149,7 @@ class WaypointPoses{
       //Bottom Left, Top Right, speed limit
       frc::RectangularRegionConstraint slowRegionRedSwitch{frc::Translation2d{472_in, 59_in},
                                                   frc::Translation2d{537_in, 155_in},
-                                                  frc::MaxVelocityConstraint{.75_mps}};
+                                                  frc::MaxVelocityConstraint{.45_mps}};
 
       frc::RectangularRegionConstraint slowRegionRedBump{frc::Translation2d{491_in, 0_in},
                                                   frc::Translation2d{505_in, 59_in},
@@ -157,7 +157,7 @@ class WaypointPoses{
 
       frc::RectangularRegionConstraint slowRegionBlueSwitch{frc::Translation2d{113_in, 59_in},
                                                   frc::Translation2d{220_in, 155_in},
-                                                  frc::MaxVelocityConstraint{.75_mps}};
+                                                  frc::MaxVelocityConstraint{.45_mps}};
 
       frc::RectangularRegionConstraint slowRegionBlueBump{frc::Translation2d{145_in, 0_in},
                                                   frc::Translation2d{155_in, 59_in},
@@ -170,7 +170,7 @@ class WaypointPoses{
     }
     //configure traj with speed and acceleration 
     frc::TrajectoryConfig config{ constants::swerveConstants::MaxSpeed*.5, 
-                                  constants::swerveConstants::MaxAcceleration*.5};
+                                  constants::swerveConstants::MaxAcceleration*.35};
     
     
 

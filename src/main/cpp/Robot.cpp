@@ -291,7 +291,7 @@ void Robot::GenSimpleSwitch(){
     std::vector<frc::Translation2d> wp2Piece1{ waypoints::BlueSwitchNear, waypoints::BlueSwitchFar };
 
     //create traj from score position 1 to pickup position 1
-    frc::Pose2d p1 = frc::Pose2d(waypoints::BlueSwitchFar.X()+30_in, waypoints::BlueSwitchFar.Y()-0_in , frc::Rotation2d(179.9_deg));
+    frc::Pose2d p1 = frc::Pose2d(waypoints::BlueSwitchFar.X()+36_in, waypoints::BlueSwitchFar.Y()-0_in , frc::Rotation2d(179.9_deg));
     traj2Piece1 = frc::TrajectoryGenerator::GenerateTrajectory(x, 
                                                           wp2Piece1, 
                                                           p1, 
@@ -303,7 +303,7 @@ void Robot::GenSimpleSwitch(){
     //create traj from score position 1 to pickup position 1
     traj2Score2 = frc::TrajectoryGenerator::GenerateTrajectory(p1, 
                                                           wp2Switch, 
-                                                          frc::Pose2d(waypoints::BlueSwitch.X()+12_in, waypoints::BlueSwitch.Y(), frc::Rotation2d(0_deg)), 
+                                                          frc::Pose2d(waypoints::BlueSwitch.X()+0_in, waypoints::BlueSwitch.Y(), frc::Rotation2d(0_deg)), 
                                                           c.config);
 
 
@@ -319,7 +319,7 @@ void Robot::GenSimpleSwitch(){
     std::vector<frc::Translation2d> wp2Piece1{ waypoints::RedSwitchNear, waypoints::RedSwitchFar };
 
     //create traj from score position 1 to pickup position 1
-    frc::Pose2d p1 = frc::Pose2d(waypoints::RedSwitchFar.X()-30_in, waypoints::RedSwitchFar.Y()-0_in , frc::Rotation2d(0_deg));
+    frc::Pose2d p1 = frc::Pose2d(waypoints::RedSwitchFar.X()-36_in, waypoints::RedSwitchFar.Y()-0_in , frc::Rotation2d(0_deg));
     traj2Piece1 = frc::TrajectoryGenerator::GenerateTrajectory(x, 
                                                           wp2Piece1, 
                                                           p1, 
@@ -331,7 +331,7 @@ void Robot::GenSimpleSwitch(){
     //create traj from score position 1 to pickup position 1
     traj2Score2 = frc::TrajectoryGenerator::GenerateTrajectory(p1, 
                                                           wp2Switch, 
-                                                          frc::Pose2d(waypoints::RedSwitch.X()-12_in, waypoints::RedSwitch.Y(), frc::Rotation2d(0_deg)), 
+                                                          frc::Pose2d(waypoints::RedSwitch.X()-0_in, waypoints::RedSwitch.Y(), frc::Rotation2d(0_deg)), 
                                                           c.config);
 
   } 
@@ -389,7 +389,7 @@ void Robot::RunSimpleSwitch(){
             {heading = 179.9_deg;}else{heading = 0_deg;} 
             m_swerve.DrivePos(p.X(), p.Y(), heading);
 
-            if(m_swerve.GetPose().X()>(waypoints::BlueSwitch.X()) && m_swerve.GetPose().X()<(waypoints::RedSwitch.X())){
+            if(m_swerve.GetPose().X()>(waypoints::BlueSwitchNear.X()) && m_swerve.GetPose().X()<(waypoints::RedSwitchNear.X())){
               m_arm.SetAngle(10_deg);
             }
             if(autoTimer.Get()>(traj2Score2.TotalTime()+.25_s)){
